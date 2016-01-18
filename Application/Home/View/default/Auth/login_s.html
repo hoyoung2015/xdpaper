@@ -1,4 +1,4 @@
-<extend name="Login/login_base" />
+<extend name="Auth/login_base" />
 <block name="body">
     <script type="text/javascript" src="__STATIC__/qrcode/qrcode.js"></script>
     <script type="text/javascript" src="__STATIC__/qrcode/jquery.qrcode.js"></script>
@@ -24,8 +24,9 @@
             </div>
             <section class="login_box">
                 <form class="login-form" action="__SELF__" method="post">
+                    <input type="hidden" value="{$u}">
                     <div class="form_body">
-                        <h6>欢迎使用WeiPHP!</h6>
+                        <h6>{:C('WEB_SITE_TITLE')}欢迎使用论文投稿系统</h6>
                         <div class="input_panel">
                             <div class="control-group">
                                 <label class="control-label" for="inputEmail">用户名</label>
@@ -59,7 +60,7 @@
                         <div class="control-group">
                             <label class="control-label"></label>
                             <div class="controls" style="margin-top:10px">
-                                <img class="verifyimg reloadverify" alt="点击切换" src="{:U('Public/verify')}" style="cursor:pointer;">
+                                <img class="verifyimg reloadverify" alt="点击切换" src="{:U('Auth/verify')}" style="cursor:pointer;">
                             </div>
                         </div>
                         <php> } </php>
@@ -71,14 +72,9 @@
                             <div class="controls">
                                 <button type="submit" class="btn btn-large">登 录</button>
                             </div>
-                            <php> if(C('USER_ALLOW_REGISTER')) { </php>
                             <div class="controls">
-                                还没账号?
+                                <a style="width:280px;" class="btn border-btn-main btn-large" href="{:U('User/register')}">导师入口</a>
                             </div>
-                            <div class="controls">
-                                <a style="width:280px;" class="btn border-btn-main btn-large" href="{:U('User/register')}">立 即 注 册</a>
-                            </div>
-                            <php> } </php>
                         </div>
                     </div>
                 </form>

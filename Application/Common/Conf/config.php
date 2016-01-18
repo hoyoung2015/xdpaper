@@ -45,6 +45,8 @@ return array(
     'DB_PWD'    => '',  // 密码
     'DB_PORT'   => '3306', // 端口
     'DB_PREFIX' => '', // 数据库表前缀
+//    'DB_CHARSET' => 'UTF-8',
+//    'DEFAULT_CHARSET'=>'UTF-8',
 
     /* 文档模型配置 (文档模型核心配置，请勿更改) */
     'DOCUMENT_MODEL_TYPE' => array(2 => '主题', 1 => '目录', 3 => '段落'),

@@ -6,16 +6,20 @@
 // +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
-namespace Admin\Controller;
-use Think\Controller;
+
+namespace Common\Controller;
+use \Think\Controller;
 /**
  * 文件控制器
  * 主要用于下载模型的文件上传和下载
  */
-class FileController extends Controller {
 
-    /* 文件上传 */
-    public function upload(){
+class FileController extends Controller {
+    public function test(){
+        die('FileController test');
+    }
+	/* 文件上传 */
+	public function upload(){
 		$return  = array('status' => 1, 'info' => '上传成功', 'data' => '');
 		/* 调用文件上传组件上传文件 */
 		$File = D('File');
@@ -29,8 +33,8 @@ class FileController extends Controller {
 
         /* 记录附件信息 */
         if($info){
-            $return['data'] = think_encrypt(json_encode($info['download']));
-            $return['info'] = $info['download']['name'];
+        	$return['status'] = 1;
+        	$return = array_merge($info['download'], $return);
         } else {
             $return['status'] = 0;
             $return['info']   = $File->getError();

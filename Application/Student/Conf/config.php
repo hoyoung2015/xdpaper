@@ -14,7 +14,7 @@
 return array(
 
     /* SESSION 和 COOKIE 配置 */
-    'SESSION_PREFIX' => 'onethink_teacher', //session前缀
-    'COOKIE_PREFIX'  => 'onethink_teacher_', // Cookie前缀 避免冲突
+    'SESSION_PREFIX' => 'onethink_student', //session前缀
+    'COOKIE_PREFIX'  => 'onethink_student_', // Cookie前缀 避免冲突
     'WEB_SITE_VERIFY'=>true,
 );

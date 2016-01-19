@@ -1,0 +1,114 @@
+<extend name="Base/common" />
+<block name="body">
+    <div class="span9 page_message">
+        <section id="contents"> <include file="Addons/_nav" />
+            <div class="table-bar">
+                <h2>这里还没想好放什么</h2>
+            </div>
+        </section>
+    </div>
+    <!-- 用户分组弹框 -->
+    <div class="group_html" style="display:none">
+        <div class="manage_group normal_dialog">
+            <div class="content">
+                <!--            <select name="type" id="select_type" style="width:25%">
+                                    <option value="0">移入</option>
+                                    <option value="1">移出</option>
+                            </select>-->
+                <select name="group" id="select_group" style="width:100%">
+                    <volist name="auth_group" id="vo">
+                        <option value="{$vo.id}">{$vo.title}</option>
+                    </volist>
+                </select>
+                <div class="btn_wrap"><button class="btn setting_group" url="{:U('changeGroup')}" target-form="ids">确定</button></div>
+            </div>
+        </div>
+    </div>
+    <!-- 备注用户名 -->
+    <div class="remark_html" style="display:none">
+        <div class="manage_group normal_dialog">
+            <div class="content">
+                <input name="remark" id="set_remark" value="" placeholder="请输入备注信息" class="text"  />
+                <div class="btn_wrap"><button class="btn setting_remark" url="{:U('set_remark')}">确定</button></div>
+            </div>
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script type="text/javascript">
+        var url = "__SELF__";
+        //导航高亮
+        $(".nav li a[href='"+url+"']").parent().addClass('active');
+        $(function(){
+            //搜索功能
+            $("#search").click(function(){
+                var url = $(this).attr('url');
+                var query  = $('.search-form').find('input').serialize();
+                query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+                query = query.replace(/^&/g,'');
+                if( url.indexOf('?')>0 ){
+                    url += '&' + query;
+                }else{
+                    url += '?' + query;
+                }
+                if(query == '' ){
+                    url= $(this).attr('url');
+                    //url="{:addons_url($_REQUEST ['_addons'].'://'.$_REQUEST ['_controller'].'/lists')}";
+                }
+                window.location.href = url;
+            });
+
+            //回车自动提交
+            $('.search-form').find('input').keyup(function(event){
+                if(event.keyCode===13){
+                    $("#search").click();
+                }
+            });
+            $('select[name=group]').change(function(){
+                location.href = this.value;
+            });
+            //设置分组
+            $('.setting_group').click(function(){
+                var html = $($('.group_html').html());
+                query = $('.ids').serialize();
+                if(query==""){
+                    alert('请选择用户');
+                    return;
+                }
+                $.Dialog.open('设置用户分组',{width:300,height:160},html);
+                //$.thinkbox(html);
+                $('button',html).click(function(){
+                    that = this;
+                    target = $(that).attr('url');
+                    query = query + "&group_id="+$('#select_group', html).val() ;//+ "&type="+$('#select_type', html).val();
+                    $(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
+                    $.post(target,query).success(function(data){
+                        location.reload();
+                        $('.thinkbox-modal-blackout-default,.thinkbox-default').hide();
+                    });
+                })
+            })
+
+            $('.set_remark').click(function(){
+                var html = $($('.remark_html').html());
+                var uid = $(this).attr('rel');
+                $.post("{:U('getUserRemark')}",{'uid':uid},function(re){
+                    $("input[name='remark']").val(re);
+                });
+                $.Dialog.open('设置用户备注',{width:300,height:160},html);
+                //$.thinkbox(html);
+                $('button',html).click(function(){
+                    that = this;
+                    target = $(that).attr('url');
+                    query = "uid="+uid+"&remark="+$('#set_remark', html).val() ;//+ "&type="+$('#select_type', html).val();
+                    $(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
+                    $.post(target,query).success(function(data){
+                        location.reload();
+                        $('.thinkbox-modal-blackout-default,.thinkbox-default').hide();
+                    });
+                })
+            })
+
+        })
+    </script>
+</block>

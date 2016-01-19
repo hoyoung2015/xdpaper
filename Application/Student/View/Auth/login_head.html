@@ -1,0 +1,38 @@
+<meta charset="UTF-8">
+<meta content="{:C('WEB_SITE_KEYWORD')}" name="keywords"/>
+<meta content="{:C('WEB_SITE_DESCRIPTION')}" name="description"/>
+<link rel="shortcut icon" href="{:SITE_URL}/favicon.ico">
+<title><php>echo empty($page_title) ? C('WEB_SITE_TITLE') : $page_title;</php></title>
+<link href="__PUBLIC__/static/font-awesome/css/font-awesome.min.css?v={:SITE_VERSION}" rel="stylesheet">
+<link href="__PUBLIC__/Common/css/base.css?v={:SITE_VERSION}" rel="stylesheet">
+<link href="__PUBLIC__/Common/css/module.css?v={:SITE_VERSION}" rel="stylesheet">
+<link href="__PUBLIC__/Common/css/weiphp.css?v={:SITE_VERSION}" rel="stylesheet">
+<link href="__PUBLIC__/static/emoji.css?v={:SITE_VERSION}" rel="stylesheet">
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+<script src="__PUBLIC__/static/bootstrap/js/html5shiv.js?v={:SITE_VERSION}"></script>
+<![endif]-->
+<block name="style"></block>
+<!--[if lt IE 9]>
+<script type="text/javascript" src="__PUBLIC__/static/jquery-1.10.2.min.js"></script>
+<![endif]-->
+<!--[if gte IE 9]><!-->
+<script type="text/javascript" src="__PUBLIC__/static/jquery-2.0.3.min.js"></script>
+<!--<![endif]-->
+<script type="text/javascript" src="__PUBLIC__/static/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/uploadify/jquery.uploadify.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/zclip/ZeroClipboard.min.js?v={:SITE_VERSION}"></script>
+<script type="text/javascript" src="__PUBLIC__/Common/js/dialog.js?v={:SITE_VERSION}"></script>
+<script type="text/javascript" src="__PUBLIC__/Common/js/admin_common.js?v={:SITE_VERSION}"></script>
+<script type="text/javascript" src="__PUBLIC__/Common/js/admin_image.js?v={:SITE_VERSION}"></script>
+<script type="text/javascript" src="__PUBLIC__/static/masonry/masonry.pkgd.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/jquery.dragsort-0.5.2.min.js"></script>
+<script type="text/javascript">
+var  IMG_PATH = "__PUBLIC__/Common/images";
+var  STATIC = "__PUBLIC__/static";
+var  ROOT = "__ROOT__";
+var  UPLOAD_PICTURE = "{:U('home/File/uploadPicture',array('session_id'=>session_id()))}";
+var  UPLOAD_FILE = "{:U('File/upload',array('session_id'=>session_id()))}";
+</script>
+<!-- 页面header钩子，一般用于加载插件CSS文件和代码 -->
+{:hook('pageHeader')}

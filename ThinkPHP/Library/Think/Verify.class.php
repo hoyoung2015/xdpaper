@@ -153,7 +153,9 @@ class Verify {
         
         // 保存验证码
         $key = $this->authcode($this->seKey);
+        Log::record('验证码'.json_encode($code),Log::DEBUG);
         $code = $this->authcode(strtoupper(implode('', $code)));
+
         $session = array();
         if($id) {
             $session[$id]['verify_code'] = $code; // 把校验码保存到session

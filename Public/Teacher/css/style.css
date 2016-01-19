@@ -1,0 +1,26 @@
+.form-horizontal .item-label{
+    width: 180px;
+    /*line-height: 40px;*/
+    /*height: 40px;*/
+}
+.form-horizontal .form-item {
+     margin-bottom: 10px;
+}
+.form-horizontal .controls {
+    padding: 0;
+}
+.form-horizontal .text {
+    /*padding: 6px;*/
+}
+.submit-btn {
+    padding: 10px 40px;
+    font-size: 16px;
+}
+.btn-return{
+    padding: 10px 40px;
+    background-color: #aaa;
+    font-size: 16px;
+}
+.btn-return:hover{
+    background-color: #999;
+}

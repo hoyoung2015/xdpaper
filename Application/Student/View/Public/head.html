@@ -3,13 +3,11 @@
 <meta content="{:C('WEB_SITE_DESCRIPTION')}" name="description"/>
 <link rel="shortcut icon" href="{:SITE_URL}/favicon.ico">
 <title><php>echo empty($page_title) ? C('WEB_SITE_TITLE') : $page_title;</php></title>
-<link href="__PUBLIC__/static/font-awesome/css/font-awesome.min.css?v={:SITE_VERSION}" rel="stylesheet">
-<link href="__COMMON__/css/base.css?v={:SITE_VERSION}" rel="stylesheet">
-<link href="__COMMON__/css/module.css?v={:SITE_VERSION}" rel="stylesheet">
-<link href="__COMMON__/css/weiphp.css?v={:SITE_VERSION}" rel="stylesheet">
+<link href="__STATIC__/font-awesome/css/font-awesome.min.css?v={:SITE_VERSION}" rel="stylesheet">
+<link href="__CSS__/base.css?v={:SITE_VERSION}" rel="stylesheet">
+<link href="__CSS__/module.css?v={:SITE_VERSION}" rel="stylesheet">
+<link href="__CSS__/weiphp.css?v={:SITE_VERSION}" rel="stylesheet">
 <link href="__STATIC__/emoji.css?v={:SITE_VERSION}" rel="stylesheet">
-<link href="__PUBLIC__/{$Think.MODULE_NAME}/css/style.css?v={:SITE_VERSION}" rel="stylesheet">
-
 <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
 <script src="__STATIC__/bootstrap/js/html5shiv.js?v={:SITE_VERSION}"></script>
@@ -24,13 +22,13 @@
 <script type="text/javascript" src="__STATIC__/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
 <script type="text/javascript" src="__STATIC__/zclip/ZeroClipboard.min.js?v={:SITE_VERSION}"></script>
-<script type="text/javascript" src="__COMMON__/js/dialog.js?v={:SITE_VERSION}"></script>
-<script type="text/javascript" src="__COMMON__/js/admin_common.js?v={:SITE_VERSION}"></script>
-<script type="text/javascript" src="__COMMON__/js/admin_image.js?v={:SITE_VERSION}"></script>
+<script type="text/javascript" src="__JS__/dialog.js?v={:SITE_VERSION}"></script>
+<script type="text/javascript" src="__JS__/admin_common.js?v={:SITE_VERSION}"></script>
+<script type="text/javascript" src="__JS__/admin_image.js?v={:SITE_VERSION}"></script>
 <script type="text/javascript" src="__STATIC__/masonry/masonry.pkgd.min.js"></script>
 <script type="text/javascript" src="__STATIC__/jquery.dragsort-0.5.2.min.js"></script> 
 <script type="text/javascript">
-var  IMG_PATH = "__COMMON__/images";
+var  IMG_PATH = "__IMG__";
 var  STATIC = "__STATIC__";
 var  ROOT = "__ROOT__";
 var  UPLOAD_PICTURE = "{:U('home/File/uploadPicture',array('session_id'=>session_id()))}";

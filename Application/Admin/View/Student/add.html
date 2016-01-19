@@ -18,11 +18,21 @@
             </div>
         </div>
         <div class="form-item">
+            <label class="item-label">性别<span class="check-tips"></span></label>
+            <div class="controls">
+                <select name="sex">
+                    <option></option>
+                    <option value="男">&nbsp;&nbsp;&nbsp;&nbsp;男&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                    <option value="女">&nbsp;&nbsp;&nbsp;&nbsp;女&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-item">
             <label class="item-label">所属导师<span class="check-tips">（所属的导师）</span></label>
             <div class="controls">
                 <select name="pid">
                     <volist name="teachers" id="t">
-                        <option value="{$t.id}">{$t.nickname}</option>
+                        <option value="{$t.id}">&nbsp;&nbsp;{$t.nickname}&nbsp;&nbsp;</option>
                     </volist>
                 </select>
             </div>

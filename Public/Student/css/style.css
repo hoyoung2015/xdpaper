@@ -1,0 +1,50 @@
+    /*padding: 6px;*/
+/*}*/
+/*.submit-btn {*/
+    /*padding: 10px 40px;*/
+    /*font-size: 16px;*/
+/*}*/
+.return-btn{
+    padding: 12px 50px;
+    background-color: #aaa;
+    font-size: 16px;
+}
+.return-btn:hover{
+    background-color: #999;
+}
+select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input{
+    margin-bottom: 0;
+}
+.btn-picker,.btn-selector{
+    background-color: white;
+    color: #666;
+    border: solid 1px #369F3B;
+    margin-left: 5px;
+}
+.btn-picker.select,.btn-selector.select{
+    background-color: #369F3B;
+    color: white;
+}
+.tag-picker ul li,.tag-selector ul li {
+    display: inline-block;
+    padding: 4px 10px;
+    font-size: 12px;
+    line-height: 20px;
+    color: #666;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    -moz-transition: color .25s linear, background-color .25s linear;
+    -webkit-transition: color .25s linear, background-color .25s linear;
+    transition: color .25s linear, background-color .25s linear;
+    border-radius: 3px;
+    border: solid 1px #44b549;
+    margin-right: 5px;
+}
+.tag-picker ul li.select,.tag-selector ul li.select {
+    background-color: #44b549;
+    color: white;
+}
+.tag-selector ul{
+    text-align: center;
+}

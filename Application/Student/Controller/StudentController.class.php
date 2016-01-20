@@ -16,5 +16,7 @@ class StudentController extends Controller{
             //尚未登录
             $this->redirect('Auth/login');
         }
+        $this->myinfo = M('Student')->where('id='.$userAuth['uid'])->find();
+        Log::record('我的信息'.json_encode($this->myinfo),Log::DEBUG);
     }
 }

@@ -1,7 +1,7 @@
 <extend name="Base/common" />
 <block name="body">
-    <div class="span9 page_message">
-        <section id="contents"> <include file="Addons/_nav" />
+    <div class="wrap">
+        <section id="contents">
             <div class="table-bar">
 
                 <div class="fl">
@@ -77,32 +77,6 @@
             </div>
             <div class="page"> {$_page|default=''} </div>
         </section>
-    </div>
-    <!-- 用户分组弹框 -->
-    <div class="group_html" style="display:none">
-        <div class="manage_group normal_dialog">
-            <div class="content">
-                <!--            <select name="type" id="select_type" style="width:25%">
-                                    <option value="0">移入</option>
-                                    <option value="1">移出</option>
-                            </select>-->
-                <select name="group" id="select_group" style="width:100%">
-                    <volist name="auth_group" id="vo">
-                        <option value="{$vo.id}">{$vo.title}</option>
-                    </volist>
-                </select>
-                <div class="btn_wrap"><button class="btn setting_group" url="{:U('changeGroup')}" target-form="ids">确定</button></div>
-            </div>
-        </div>
-    </div>
-    <!-- 备注用户名 -->
-    <div class="remark_html" style="display:none">
-        <div class="manage_group normal_dialog">
-            <div class="content">
-                <input name="remark" id="set_remark" value="" placeholder="请输入备注信息" class="text"  />
-                <div class="btn_wrap"><button class="btn setting_remark" url="{:U('set_remark')}">确定</button></div>
-            </div>
-        </div>
     </div>
     <input type="hidden" id="tagData" value="{$tags}">
 </block>

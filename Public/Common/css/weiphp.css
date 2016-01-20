@@ -93,7 +93,7 @@
 	100% {transform:scale(1,1);}
 } 
 /* 登录 */
-.login_box{width:300px; float:right; margin:80px 0 0; color:#666; padding:10px 30px 30px; background:#fff;}
+.login_box{width:300px; margin:45px auto; color:#666; padding:10px 30px 30px; background:#fff;}
 .login_box h6{ line-height:50px; font-size:18px;}
 .form_title{text-align:center; color:#ccc; font-size:16px; display:none}
 .login_box .form_body{ margin-top:10px;}
@@ -186,9 +186,9 @@ background-clip: none;
 .sidenav_parent img{ width:20px; height:20px; margin-right:5px; vertical-align:-5px;}
 /* 主栏 */
 .no_side_main_body{margin:0 auto; width:1200px; min-height:600px;}
-.main_body{ margin:0 auto; width:998px; min-height:600px;}
+.main_body{ margin:0 auto; width:998px; min-height:500px;}
 .admin_container{ margin:36px auto; width:1200px; background:#fff; border:1px solid #d9dadc;position:relative; }
-.admin_container .main_body{ display:table-cell; vertical-align:top; }
+.admin_container .main_body{ vertical-align:top; }
 .empty_container{ padding:100px 0; text-align:center}
 .empty_container p{ padding-top:100px; background:url(../images/empty_content.png) no-repeat center 0; color:#888;}
 /* 微信预览 */

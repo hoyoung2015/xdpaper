@@ -81,13 +81,18 @@
                 <input type="hidden" id="tagData" value="{$tags}">
             </div>
         </section>
+        </div>
 </block>
 
 <block name="script">
     <script type="text/javascript">
-        var url = "__SELF__";
+        var url = "/{$Think.MODULE_NAME}/{$Think.CONTROLLER_NAME}/";
         //导航高亮
-        $(".nav li a[href='"+url.substr(0,url.lastIndexOf("/"))+"/index.html']").parent().addClass('active');
+        $(".nav li a").each(function(i){
+           if($(this).attr('href').indexOf(url) >= 0){
+               $(this).parent().addClass('active');
+           }
+        });
 
         var tagData = $('#tagData').val().split(',');
 

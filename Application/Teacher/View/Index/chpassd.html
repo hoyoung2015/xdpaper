@@ -1,8 +1,8 @@
-<extend name="Base/no_side_common" />
+<extend name="Base/common" />
 <block name="body">
     <div class="wrap">
         <section id="contents">
-            <div class="tab-content" style="margin:30px auto;">
+            <div class="tab-content">
 
                 <!-- 表单 -->
                 <form class="form-horizontal bind_step_form" method="post" action="__SELF__" id="form" style="overflow:hidden; zoom:1">
@@ -36,6 +36,7 @@
             </div>
 
         </section>
+        </div>
 </block>
 <block name="script">
     <link href="__STATIC__/datetimepicker/css/datetimepicker.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">

@@ -3,71 +3,8 @@
     <div class="span9 page_message">
         <section id="contents"> <include file="Addons/_nav" />
             <div class="table-bar">
-                <div class="fl">
-                    <div class="tools"> <a href="javascript:void(0);" class="btn setting_group">设置用户组</a> &nbsp; <a href="{:U ( 'Home/AuthGroup/export' )}" class="btn">导出用户</a> &nbsp;
-                        <if condition="$syc_wechat"><a href="{:U('syc_auth_group')}" class="btn tongbu">一键同步微信公众号粉丝</a> &nbsp;</if> </div>
-                </div>
-                <!-- 高级搜索 -->
-                <div class="search-form fr cf">
-                    <div class="sleft" style="margin-right:10px;">
-                        <select name="group" style="border:none; padding:4px; margin:0;">
-                            <option value="{:addons_url('UserCenter://UserCenter/lists',array('group_id'=>0))}" <eq name="$group_id" value="0">selected</eq> >全部用户</option>
-                            <volist name="auth_group" id="vo">
-                                <option value="{:addons_url('UserCenter://UserCenter/lists',array('group_id'=>$vo['id']))}" <eq name="vo['id']" value="$group_id">selected</eq> >{$vo.title}</option>
-                            </volist>
-                        </select>
-                    </div>
-                    <div class="sleft">
-                        <input type="text" placeholder="请输入关键字" value="{:I('nickname')}" class="search-input" name="nickname">
-                        <a url="{:addons_url('UserCenter://UserCenter/lists',$get_param)}" id="search" href="javascript:;" class="sch-btn"><i class="btn-search"></i></a> </div>
-                </div>
-                <!-- 多维过滤 -->
+                <h2 style="text-align: center;color: #bbb">这里还没想好放什么</h2>
             </div>
-            <!-- 数据列表 -->
-            <div class="data-table">
-                <div class="table-striped">
-                    <table cellspacing="1">
-                        <!-- 表头 -->
-                        <thead>
-                        <tr>
-                            <th class="row-selected row-selected"> <input type="checkbox" class="check-all regular-checkbox" id="checkAll">
-                                <label for="checkAll"></label></th>
-                            <th>头像</th>
-                            <th>用户昵称</th>
-                            <th>性别</th>
-                            <th>分组</th>
-                            <th>登录账号</th>
-                            <th>登录密码</th>
-                            <th>操作</th>
-                        </tr>
-                        </thead>
-
-                        <!-- 列表 -->
-                        <tbody>
-                        <volist name="list_data" id="vo">
-                            <tr>
-                                <td><input type="checkbox" id="check_{$vo.uid}" name="ids[]" value="{$vo.uid}" class="ids regular-checkbox">
-                                    <label for="check_{$vo.uid}"></label></td>
-                                <td>{$vo.headimgurl|url_img_html}</td>
-                                <td>{$vo.nickname}</td>
-                                <td>{$vo.sex_name}</td>
-                                <td>{$vo.group}</td>
-                                <td>{$vo.login_name}</td>
-                                <td>{$vo.login_password}</td>
-                                <td><a href="{:addons_url('UserCenter://UserCenter/set_login',array('uid'=>$vo[uid]))}" target="_self">设置登录账号</a>
-                                    <a href="{:addons_url('UserCenter://UserCenter/detail',array('uid'=>$vo[uid]))}" target="_self">详细资料</a>
-                                    <!--<a href="{:addons_url('UserCenter://UserCenter/edit',array('uid'=>$vo[uid]))}" target="_self">编辑</a>-->
-                                    <a href="{:U('Home/CreditData/lists',array('uid'=>$vo[uid]))}" target="_self">积分记录</a>
-                                    <a href="javascript:void(0);" class="set_remark" rel="{$vo.uid}">备注</a>
-
-                                </td>
-                            </tr>
-                        </volist>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="page"> {$_page|default=''} </div>
         </section>
     </div>
     <!-- 用户分组弹框 -->
@@ -96,9 +33,14 @@
             </div>
         </div>
     </div>
+
 </block>
 <block name="script">
     <script type="text/javascript">
+
+        var url = "__SELF__";
+        //导航高亮
+        $(".nav li a[href='"+url+"']").parent().addClass('active');
         $(function(){
             //搜索功能
             $("#search").click(function(){

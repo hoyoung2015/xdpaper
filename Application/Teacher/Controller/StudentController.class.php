@@ -11,7 +11,7 @@ use Think\Log;
 
 class StudentController extends TeacherController{
     public function index($tag = '',$nickname = ''){
-
+        $page = I ( 'p', 1, 'intval' ); // 默认显示第一页数据
         $map = array(
             'tid'=>session('user_auth')['uid'],
         );
@@ -19,10 +19,19 @@ class StudentController extends TeacherController{
         empty($nickname) || $map['nickname'] = array('like', '%'.(string)$nickname.'%');
         empty($tag) || ($map['tag'] = array('like', '%'.(string)$tag.'%'));
 
-
+        $row = 10;
 
         $model = D('Admin/Student');
-        $list = $model->where($map)->select();
+        $list = $model->where($map)->page($page,$row)->select();
+
+        $count = $model->where($map)->count();
+        // 分页
+        if ($count > $row) {
+            $page = new \Think\Page ( $count, $row );
+            $page->setConfig ( 'theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%' );
+            $this->assign('_page',$page->show ());
+        }
+
         $this->tags = $model->findGroup();
         $this->assign('list_data',$list);
 
@@ -50,7 +59,7 @@ class StudentController extends TeacherController{
         $model = D('Admin/Student');
         if(IS_POST){
             $tid = session('user_auth')['uid'];
-            $data = $model->update(array(
+            $data = $model->update(array(),array(
                 'tid'=>$tid
             ));
             if($data===false){//失败

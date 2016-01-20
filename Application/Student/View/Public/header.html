@@ -9,11 +9,7 @@
     <div class="wrap">
     
        <a class="brand" title="{:C('WEB_SITE_TITLE')}" href="{:U('index/index')}">
-       <notempty name="userInfo[website_logo]">
-       		<img height="52" src="{$userInfo.website_logo|get_cover_url}"/>
-       	<else/>
-       		<img height="52" src="__IMG__/logo.png"/>
-       </notempty>
+           <img height="52" src="__COMMON__/images/logo.png"/>
        </a>
         <if condition="is_login()">
         	<div class="switch_mp">
@@ -28,54 +24,29 @@
       <php> $index_2 = strtolower ( MODULE_NAME . '/' . CONTROLLER_NAME . '/*' ); $index_3 = strtolower ( MODULE_NAME . '/' . CONTROLLER_NAME . '/' . ACTION_NAME ); </php>
        
             <div class="top_nav">
-                <if condition="is_login()">
-                    <ul class="nav" style="margin-right:0">
-                    	<if condition="$myinfo.is_init eq 0 ">
-                    		<li><p>该账号配置信息尚未完善，功能还不能使用</p></li>
-                    		<elseif condition="$myinfo.is_audit eq 0 and !$reg_audit_switch" />
-                    		<li><p>该账号配置信息已提交，请等待审核</p></li>
-                            <elseif condition="$index_2 eq 'home/public/*' or $index_3 eq 'home/user/profile' or $index_2 eq 'home/publiclink/*'" />
-                    		
-                    		<else /> 
-                    		<volist name='core_top_menu' id='ca'>
-                           		<li data-id="{$ca.id}" class="{$ca.class}"><a href="{$ca.url}">{$ca.title}</a></li>
-                       		</volist>
-                    	</if>
-                    	
-                    	
-                        
-                        <li class="dropdown admin_nav">
-                            <a href="#" class="dropdown-toggle login-nav" data-toggle="dropdown" style="">
-                                <notempty name="myinfo[headimgurl]">
-                                    <img class="admin_head url" src="{$myinfo.headimgurl}"/>
+                <ul class="nav" style="margin-right:0">
+                    <li data-id="14" class="">
+                        <a href="{:U('Index/index')}">首页</a>
+                    </li>
+                    <li data-id="60" class="">
+                        <a href="{:U('Student/index')}">论文管理</a>
+                    </li>
+                    <li class="dropdown admin_nav">
+                        <a href="#" class="dropdown-toggle login-nav" data-toggle="dropdown" style="">
+                            <notempty name="myinfo.headface_url">
+                                <img class="admin_head url" src="{$myinfo.headface_url|get_cover_url}"/>
                                 <else/>
-                                    <img class="admin_head default" src="__IMG__/default.png"/>
-                                </notempty>
-                                {$myinfo.nickname|getShort=4}<b class="pl_5 fa fa-sort-down"></b>
-                            </a>
-                            <ul class="dropdown-menu" style="display:none">
-                               <if condition="$mid==C('USER_ADMINISTRATOR')"><li><a href="{:U ('Admin/Index/Index')}" target="_blank">后台管理</a></li></if>
-                            	<li><a href="{:U ('Home/Public/lists')}">公众号列表</a></li>
-                                <li><a href="{:U ('Home/Public/add')}">账号配置</a></li>
-                                <li><a href="{:U('User/profile')}">修改密码</a></li>
-                                <li><a href="{:U('User/logout')}">退出</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                <else/>
-                    <ul class="nav" style="margin-right:0">
-                    	<li style="padding-right:20px">你好!欢迎来到{:C('WEB_SITE_TITLE')}</li>
-                        <li>
-                            <a href="{:U('User/login')}">登录</a>
-                        </li>
-                        <li>
-                            <a href="{:U('User/register')}">注册</a>
-                        </li>
-                        <li>
-                            <a href="{:U('admin/index/index')}" style="padding-right:0">后台入口</a>
-                        </li>
-                    </ul>
-                </if>
+                                <img class="admin_head default" src="__PUBLIC__/{$Think.MODULE_NAME}/images/default.png"/>
+                            </notempty>
+                            {$myinfo.nickname|getShort=4}<b class="pl_5 fa fa-sort-down"></b>
+                        </a>
+                        <ul class="dropdown-menu" style="display:none">
+                            <li><a href="{:U ('Student/Index/center')}">个人信息</a></li>
+                            <li><a href="{:U('Index/chpassd')}">修改密码</a></li>
+                            <li><a class="ajax-get" href="{:U('Auth/logout')}">退出</a></li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </div>
 </div>

@@ -3,29 +3,37 @@
     <div class="span9 page_message">
         <section id="contents"> <include file="Addons/_nav" />
             <div class="table-bar">
+
                 <div class="fl">
                     <div class="tools">
-                        <a href="{:U('Student/add')}" class="btn">新增学生</a>
+                        <a href="{:U('Student/add')}" class="btn">新增</a>
+                        <a target-form="ids" href="{:U('Student/del')}" class="btn ajax-post confirm">删除</a>
+                        <a target-form="ids" href="{:U('Student/chstatus',array('status'=>1))}" class="btn ajax-post">启用</a>
+                        <a target-form="ids" href="{:U('Student/chstatus',array('status'=>0))}" class="btn ajax-post">禁用</a>
                     </div>
                 </div>
                 <!-- 高级搜索 -->
                 <div class="search-form fr cf">
                     <div class="sleft" style="margin-right:10px;">
-                        <select name="group" style="border:none; padding:4px; margin:0;">
-                            <option value="{:addons_url('UserCenter://UserCenter/lists',array('group_id'=>0))}" <eq name="$group_id" value="0">selected</eq> >全部用户</option>
-                            <volist name="auth_group" id="vo">
-                                <option value="{:addons_url('UserCenter://UserCenter/lists',array('group_id'=>$vo['id']))}" <eq name="vo['id']" value="$group_id">selected</eq> >{$vo.title}</option>
+                        <select name="tag" style="border:none; padding:4px; margin:0;">
+                            <option value="{:U('Student/index')}">全部</option>
+                            <volist name="tags" id="vo">
+                                <option value="{:U('Student/index',array('tag'=>$vo))}" <if condition="I('tag') eq $vo">selected</if> >{$vo}</option>
                             </volist>
                         </select>
                     </div>
                     <div class="sleft">
                         <input type="text" placeholder="请输入关键字" value="{:I('nickname')}" class="search-input" name="nickname">
-                        <a url="{:addons_url('UserCenter://UserCenter/lists',$get_param)}" id="search" href="javascript:;" class="sch-btn"><i class="btn-search"></i></a> </div>
+                        <a url="{:U('Student/index',$get_param)}" id="search" href="javascript:;" class="sch-btn"><i class="btn-search"></i></a>
+                    </div>
+
                 </div>
+
                 <!-- 多维过滤 -->
             </div>
             <!-- 数据列表 -->
             <div class="data-table">
+                <div id="tagSelector"></div>
                 <div class="table-striped">
                     <table cellspacing="1">
                         <!-- 表头 -->
@@ -33,13 +41,11 @@
                         <tr>
                             <th class="row-selected row-selected"> <input type="checkbox" class="check-all regular-checkbox" id="checkAll">
                                 <label for="checkAll"></label></th>
-                            <th>头像</th>
-                            <th>姓名</th>
-                            <th>性别</th>
-                            <th>分组</th>
-                            <th>登录账号</th>
+                            <th width="100">姓名</th>
+                            <th width="100">登录账号</th>
+                            <th>标签</th>
                             <th>备注</th>
-                            <th>操作</th>
+                            <th width="150">操作</th>
                         </tr>
                         </thead>
 
@@ -49,15 +55,19 @@
                             <tr>
                                 <td><input type="checkbox" id="check_{$vo.id}" name="ids[]" value="{$vo.id}" class="ids regular-checkbox">
                                     <label for="check_{$vo.id}"></label></td>
-                                <td>{$vo.headimgurl|url_img_html}</td>
                                 <td>{$vo.nickname}</td>
-                                <td>{$vo.sex}</td>
-                                <td>{$vo.group}</td>
                                 <td>{$vo.username}</td>
+                                <td>{$vo.tag}</td>
                                 <td>{$vo.remark}</td>
                                 <td>
-                                    <a href="#" target="_self">禁用</a>
-                                    <a href="#" target="_self">删除</a>
+                                    <if condition="$vo.status eq 1">
+                                        <a href="{:U('Student/chstatus',array('id'=>$vo['id'],'status'=>0))}" target="_self" class="ajax-get">禁用</a>
+                                        <else/>
+                                        <a href="{:U('Student/chstatus',array('id'=>$vo['id'],'status'=>1))}" target="_self" class="ajax-get">启用</a>
+                                    </if>
+
+                                    <a href="{:U('Student/edit',array('sid'=>$vo['id']))}" target="_self">编辑</a>
+                                    <a class="confirm" href="{:U('Student/del',array('id'=>$vo['id']))}" target="_self">删除</a>
                                 </td>
                             </tr>
                         </volist>
@@ -94,10 +104,41 @@
             </div>
         </div>
     </div>
+    <input type="hidden" id="tagData" value="{$tags}">
 </block>
 <block name="script">
     <script type="text/javascript">
         var url = "__SELF__";
+        var tagData = $('#tagData').val().split(',');
+        function TagSelecter(containerId,tagData){
+            //生成tag
+            if(tagData.length == 0){
+                return;
+            }
+            $container = $('#'+containerId);
+            var htmlStr = '<div class="tag-selector" style="padding: 10px 0">';
+
+            htmlStr += '<ul>';
+            $.each(tagData,function(i,v){
+                htmlStr += '<li data="'+v+'">'+v+'</li>';
+            });
+            htmlStr += '</ul>';
+            htmlStr += '</div>';
+            $div = $(htmlStr);
+            //注册事件
+            $div.find('ul li').each(function(index){
+                $(this).click(function(){
+                    if($(this).hasClass('select')){
+                        $(this).removeClass('select');
+                    }else{
+                        $(this).addClass('select');
+                    }
+//                    updateInputVal();//更新值
+                })
+            });
+            $container.append($div);
+        }
+//        new TagSelecter('tagSelector',tagData);
         //导航高亮
         $(".nav li a[href='"+url+"']").parent().addClass('active');
         $(function(){
@@ -127,50 +168,9 @@
                     $("#search").click();
                 }
             });
-            $('select[name=group]').change(function(){
+            $('select[name=tag]').change(function(){
                 location.href = this.value;
             });
-            //设置分组
-            $('.setting_group').click(function(){
-                var html = $($('.group_html').html());
-                query = $('.ids').serialize();
-                if(query==""){
-                    alert('请选择用户');
-                    return;
-                }
-                $.Dialog.open('设置用户分组',{width:300,height:160},html);
-                //$.thinkbox(html);
-                $('button',html).click(function(){
-                    that = this;
-                    target = $(that).attr('url');
-                    query = query + "&group_id="+$('#select_group', html).val() ;//+ "&type="+$('#select_type', html).val();
-                    $(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
-                    $.post(target,query).success(function(data){
-                        location.reload();
-                        $('.thinkbox-modal-blackout-default,.thinkbox-default').hide();
-                    });
-                })
-            })
-
-            $('.set_remark').click(function(){
-                var html = $($('.remark_html').html());
-                var uid = $(this).attr('rel');
-                $.post("{:U('getUserRemark')}",{'uid':uid},function(re){
-                    $("input[name='remark']").val(re);
-                });
-                $.Dialog.open('设置用户备注',{width:300,height:160},html);
-                //$.thinkbox(html);
-                $('button',html).click(function(){
-                    that = this;
-                    target = $(that).attr('url');
-                    query = "uid="+uid+"&remark="+$('#set_remark', html).val() ;//+ "&type="+$('#select_type', html).val();
-                    $(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
-                    $.post(target,query).success(function(data){
-                        location.reload();
-                        $('.thinkbox-modal-blackout-default,.thinkbox-default').hide();
-                    });
-                })
-            })
 
         })
     </script>

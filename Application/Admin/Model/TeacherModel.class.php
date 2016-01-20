@@ -29,8 +29,10 @@ class TeacherModel extends \Think\Model{
     );
     public function update($input=array()){
         /* 获取数据对象 */
+        Log::record('craete前的数据'.$_POST['nickname'],Log::DEBUG);
         $data = $this->create(array_merge($_POST,$input));
-
+        Log::record('中文json编码测试'.json_encode(array('name'=>'你好')),Log::DEBUG);
+        Log::record('存入数据库的数据'.$data['nickname'],Log::DEBUG);
         if(empty($data) || $data===false){
             return false;
         }
@@ -53,5 +55,59 @@ class TeacherModel extends \Think\Model{
         //内容添加或更新完成
         return $data;
 
+    }
+    /**
+     * 更新用户信息
+     *
+     * @param int $uid
+     *        	用户id
+     * @param string $password
+     *        	密码，用来验证
+     * @param array $data
+     *        	修改的字段数组
+     * @return true 修改成功，false 修改失败
+     * @author huajie <banhuajie@163.com>
+     */
+    public function updateUserFields($uid, $password, $data) {
+        if (empty ( $uid ) || empty ( $password ) || empty ( $data )) {
+            $this->error = '参数错误！';
+            return false;
+        }
+
+        $map ['id'] = $uid;
+        $user = $this->where ( $map )->find ();
+        if ($user['password'] !== $password) {
+            $this->error = '验证出错：密码不正确！';
+            return false;
+        }
+        $user['update_time'] = time();
+        // 更新用户信息
+        $data = $this->create ( array_merge($user,$data) );
+        if ($data) {
+            $res = $this->where ( array (
+                'id' => $uid
+            ) )->save ( $data );
+            return $res;
+        }
+        return false;
+    }
+    /**
+     * 验证用户密码
+     *
+     * @param int $uid
+     *        	用户id
+     * @param string $password_in
+     *        	密码
+     * @return true 验证成功，false 验证失败
+     * @author huajie <banhuajie@163.com>
+     */
+    protected function verifyUser($uid, $password_in) {
+        // $password = $this->getFieldById ( $uid, 'password' );
+        $map ['id'] = $uid;
+        $password = $this->where ( $map )->getField ( 'password' );
+        if ($password_in === $password) {
+            return true;
+        }
+        return false;
     }
 }

@@ -15,7 +15,7 @@ return array(
 //    'SESSION_AUTO_START' => true,
     /* 模块相关配置 */
     'AUTOLOAD_NAMESPACE' => array('Addons' => ONETHINK_ADDON_PATH), //扩展模块列表
-    'DEFAULT_MODULE'     => 'Common',
+    'DEFAULT_MODULE'     => 'Student',
     'MODULE_DENY_LIST'   => array('Common', 'User'),
     //'MODULE_ALLOW_LIST'  => array('Home','Admin'),
 
@@ -56,10 +56,8 @@ return array(
     'TMPL_PARSE_STRING' => array(
         '__STATIC__' => __ROOT__ . '/Public/static',
         '__COMMON__' => __ROOT__ . '/Public/Common',
-        '__ADDONS__' => __ROOT__ . '/Public/' . MODULE_NAME  . '/Addons',
-        '__IMG__'    => __ROOT__ . '/Public/' . MODULE_NAME  . '/images',
-        '__CSS__'    => __ROOT__ . '/Public/' . MODULE_NAME  . '/css',
-        '__JS__'     => __ROOT__ . '/Public/' . MODULE_NAME  . '/js',
+        'SITE_VERSION'=>'1.0',
     ),
     'PICTURE_UPLOAD_DRIVER' => 'Local',
+
 );

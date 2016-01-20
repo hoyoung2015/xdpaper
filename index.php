@@ -25,6 +25,9 @@ if(!is_file(APP_PATH . 'User/Conf/config.php')){
 	exit;
 }
 
+define('SCRIPT_DIR', (isset($_SERVER['SCRIPT_NAME']) ? rtrim(dirname($_SERVER['SCRIPT_NAME']), '\/\\') : ''));
+define('SITE_URL', isset($_SERVER['HTTP_HOST']) ? 'http://' . $_SERVER['HTTP_HOST'] . SCRIPT_DIR : '');
+
 /**
  * 缓存目录设置
  * 此目录必须可写，建议移动到非WEB目录

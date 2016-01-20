@@ -1002,7 +1002,7 @@ function getShort($str, $length = 40, $ext = '') {
     $str = strip_tags ( $str );
     $str = htmlspecialchars_decode ( $str );
     $strlenth = 0;
-    $out = '';
+    $output = '';
     preg_match_all ( "/[\x01-\x7f]|[\xc2-\xdf][\x80-\xbf]|[\xe0-\xef][\x80-\xbf]{2}|[\xf0-\xff][\x80-\xbf]{3}/", $str, $match );
     foreach ( $match [0] as $v ) {
         preg_match ( "/[\xe0-\xef][\x80-\xbf]{2}/", $v, $matchs );
@@ -1029,7 +1029,7 @@ function url_img_html($url) {
 
     return '<img class="list_img" src="' . $url . '" >';
 }
-function get_cover_url($cover_id, $width = '', $height = '') {
+function get_cover_url($cover_id, $width = '', $height = '',$thumb='') {
     $info = get_cover ( $cover_id );
 
     if ($width > 0 && $height > 0) {
@@ -1046,4 +1046,32 @@ function get_cover_url($cover_id, $width = '', $height = '') {
     if (empty ( $url ))
         return '';
     return SITE_URL . $url . $thumb;
+}
+function phpArray2JsArray($arr){
+    foreach($arr as $vo){
+        $vo = '\"'.$vo.'\"';
+    }
+
+    return '['.implode(',',$arr).']';
+}
+function array_values_merge()
+{
+    $argc = func_num_args();
+    if ($argc == 0) {
+        return false;
+    } else if ($argc == 1) {
+        $arg1 = func_get_arg(0);
+        if (is_array($arg1)) {
+            return array_values(array_unique($arg1));
+        } else {
+            return array($arg1);
+        }
+    } else {
+        $arg_list = func_get_args();
+        $arr = array();
+        for ($i=0; $i<$argc; $i++) {
+            $arr = array_merge($arr, $arg_list[$i]);
+        }
+        return array_values(array_unique($arr));
+    }
 }

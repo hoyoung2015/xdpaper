@@ -66,4 +66,16 @@ class AuthController extends Controller{
         $verify = new \Think\Verify();
         $verify->entry(2);
     }
+    /* 退出登录 */
+    public function logout() {
+        if (is_teacher_login ()) {
+            session ( 'user_auth', null );
+            if (isset ( $_GET ['no_tips'] )) {
+                $this->redirect ( 'User/login' );
+            }
+             $this->success ( '退出成功！', U ( 'Teacher/Auth/login' ) );
+        } else {
+            $this->redirect ( 'Teacher/Auth/login' );
+        }
+    }
 }

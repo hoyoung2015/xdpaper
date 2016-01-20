@@ -1,7 +1,12 @@
 .form-horizontal .item-label{
-    width: 180px;
+    /*width: 180px;*/
     /*line-height: 40px;*/
     /*height: 40px;*/
+    display: block;
+    margin-right: 5px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
 }
 .form-horizontal .form-item {
      margin-bottom: 10px;

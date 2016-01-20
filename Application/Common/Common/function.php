@@ -1029,3 +1029,21 @@ function url_img_html($url) {
 
     return '<img class="list_img" src="' . $url . '" >';
 }
+function get_cover_url($cover_id, $width = '', $height = '') {
+    $info = get_cover ( $cover_id );
+
+    if ($width > 0 && $height > 0) {
+        $thumb = "?imageMogr2/thumbnail/{$width}x{$height}";
+    } elseif ($width > 0) {
+        $thumb = "?imageMogr2/thumbnail/{$width}x";
+    } elseif ($height > 0) {
+        $thumb = "?imageMogr2/thumbnail/x{$height}";
+    }
+    if ($info ['url'])
+        return $info ['url'] . $thumb;
+
+    $url = $info ['path'];
+    if (empty ( $url ))
+        return '';
+    return SITE_URL . $url . $thumb;
+}

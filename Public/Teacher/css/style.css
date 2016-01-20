@@ -1,31 +1,17 @@
-.form-horizontal .item-label{
-    /*width: 180px;*/
-    /*line-height: 40px;*/
-    /*height: 40px;*/
-    display: block;
-    margin-right: 5px;
-    height: 30px;
-    line-height: 30px;
-    font-size: 14px;
-}
-.form-horizontal .form-item {
-     margin-bottom: 10px;
-}
-.form-horizontal .controls {
-    padding: 0;
-}
-.form-horizontal .text {
     /*padding: 6px;*/
-}
-.submit-btn {
-    padding: 10px 40px;
-    font-size: 16px;
-}
-.btn-return{
-    padding: 10px 40px;
+/*}*/
+/*.submit-btn {*/
+    /*padding: 10px 40px;*/
+    /*font-size: 16px;*/
+/*}*/
+.return-btn{
+    padding: 12px 50px;
     background-color: #aaa;
     font-size: 16px;
 }
-.btn-return:hover{
+.return-btn:hover{
     background-color: #999;
+}
+select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input{
+    margin-bottom: 0;
 }

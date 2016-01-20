@@ -61,4 +61,5 @@ return array(
         '__CSS__'    => __ROOT__ . '/Public/' . MODULE_NAME  . '/css',
         '__JS__'     => __ROOT__ . '/Public/' . MODULE_NAME  . '/js',
     ),
+    'PICTURE_UPLOAD_DRIVER' => 'Local',
 );

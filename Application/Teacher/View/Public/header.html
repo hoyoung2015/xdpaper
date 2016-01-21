@@ -8,8 +8,9 @@
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="wrap">
     
-       <a class="brand" title="{:C('WEB_SITE_TITLE')}" href="{:U('index/index')}">
-           <img height="52" src="__COMMON__/images/logo.png"/>
+       <a style="line-height: 50px" class="brand" title="{:C('WEB_SITE_TITLE')}" href="{:U('index/index')}">
+           <!--<img height="52" src="__COMMON__/images/logo.png"/>-->
+           LOGO
        </a>
         <if condition="is_login()">
         	<div class="switch_mp">
@@ -30,6 +31,9 @@
                     </li>
                     <li data-id="60" class="">
                         <a href="{:U('Student/index')}">学生管理</a>
+                    </li>
+                    <li data-id="61" class="">
+                        <a href="{:U('Periodical/index')}">期刊管理</a>
                     </li>
                     <li class="dropdown admin_nav">
                         <a href="#" class="dropdown-toggle login-nav" data-toggle="dropdown" style="">

@@ -40,6 +40,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
     border-radius: 3px;
     border: solid 1px #44b549;
     margin-right: 5px;
+    margin-top: 5px;
 }
 .tag-picker ul li.select,.tag-selector ul li.select {
     background-color: #44b549;

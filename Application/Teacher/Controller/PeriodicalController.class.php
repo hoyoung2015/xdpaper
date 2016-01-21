@@ -11,7 +11,9 @@ use Think\Log;
 class PeriodicalController extends TeacherController{
     public function index($tag = '',$name = ''){
         $page = I ( 'p', 1, 'intval' ); // 默认显示第一页数据
-        $map = array();
+        $map = array(
+//            'tid'=>session('user_auth')['uid']
+        );
         Log::record('tag的值'.$tag,Log::DEBUG);
         empty($name) || $map['name'] = array('like', '%'.(string)$name.'%');
         empty($tag) || ($map['tag'] = array('like', '%'.(string)$tag.'%'));
@@ -37,19 +39,39 @@ class PeriodicalController extends TeacherController{
     public function add(){
         $model = D('Admin/Periodical');
         if(IS_POST){
-            $tid = session('user_auth')['uid'];
-
             $data = $model->update(array(
-                'tid'=>$tid
+//                'tid'=>session('user_auth')['uid']
             ));
             if($data===false){//失败
                 $this->error($model->getError());
             }else{//成功
-                $this->success('学生添加成功！',U('index'));
+                $this->success('期刊添加成功！',U('index'));
             }
         }else{
             $this->tags = implode(',',$model->findGroup());
             $this->display();
         }
+    }
+    public function edit($id=''){
+        $model = D('Admin/Periodical');
+        if(IS_POST){
+            $data = $model->update(array(),array(
+//                'tid'=>session('user_auth')['uid']
+            ));
+            if($data===false){//失败
+                $this->error($model->getError());
+            }else{//成功
+                $this->success('期刊信息修改成功！',U('index'));
+            }
+        }else{
+            $this->info = $model->where(array(
+                'id'=>$id
+            ))->find();
+            $this->tags = implode(',',$model->findGroup());
+            $this->display('add');
+        }
+    }
+    public function del($ids = null){
+        parent::common_del(M('Periodical'),array(),$ids);
     }
 }

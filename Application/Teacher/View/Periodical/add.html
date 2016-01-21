@@ -39,33 +39,17 @@
                                 </div>
                             </div>
                             <div class="form-item cf toggle-public_name">
-                                <label class="item-label"> <span class="need_flag">*</span> 网址 <span class="check-tips"> （期刊的官网地址）  </span></label>
+                                <label class="item-label"> <span class="need_flag">*</span> 网址 <span class="check-tips"> （http://开头的完整网址）  </span></label>
                                 <div class="controls">
                                     <input type="text" placeholder="输入期刊网址" value="{$info.web_site}" name="web_site" class="text input-large">
                                 </div>
                             </div>
                             <div class="form-item cf toggle-public_name">
-                                <label class="item-label"> <span class="need_flag">*</span> 登录密码 <span class="check-tips"> （长度在6到12位之间）  </span></label>
+                                <label class="item-label"> 备注 <span class="check-tips">  </span></label>
                                 <div class="controls">
-                                    <input type="password" placeholder="输入登录密码" autocomplete="false" value="{$info.password}" name="password" class="text input-large">
-                                </div>
-                            </div>
-                            <div class="form-item cf toggle-public_name">
-                                <label class="item-label"> <span class="need_flag">*</span> 确认密码 <span class="check-tips">   </span></label>
-                                <div class="controls">
-                                    <input type="password" placeholder="输入确认密码" autocomplete="false" value="{$info.password}" name="repassword" class="text input-large">
-                                </div>
-                            </div>
-                            <div class="form-item cf toggle-public_name">
-                                <label class="item-label"> <span class="need_flag">*</span> 邮箱 <span class="check-tips">  </span></label>
-                                <div class="controls">
-                                    <input type="email" placeholder="输入邮箱" value="{$info.email}" name="email" class="text input-large">
-                                </div>
-                            </div>
-                            <div class="form-item cf toggle-public_name">
-                                <label class="item-label"> 手机号码 <span class="check-tips">  </span></label>
-                                <div class="controls">
-                                    <input type="text" placeholder="输入手机号码" value="{$info.phone}" name="phone" class="text input-large">
+                                    <label class="textarea input-large">
+                                        <textarea name="remark">{$info.remark}</textarea>
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -91,7 +75,15 @@
            }
         });
 
-        var tagData = $('#tagData').val().split(',');
+        var tagData = $('#tagData').val();
+        if(tagData == ""){
+            tagData = [];
+        }else{
+            tagData = tagData.split(',');
+        }
+
+
+//
 
         /**
          *
@@ -102,7 +94,6 @@
         function TagPicker(inputElementId,tagData){
             var $input = $('#'+inputElementId);
             var inputTagData = $input.val().split(',');
-
             //生成tag
             if(tagData.length == 0){
                 return;

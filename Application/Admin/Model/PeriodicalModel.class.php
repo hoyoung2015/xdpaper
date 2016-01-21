@@ -13,12 +13,11 @@ class PeriodicalModel extends \Think\Model{
     protected $_validate = array(
         array('name', 'require', '期刊名为必须', self::MUST_VALIDATE, 'regex', self::MODEL_INSERT),
         array('name', '', '期刊名已经存在', self::MUST_VALIDATE, 'unique', self::MODEL_BOTH),
-
+        array('domain', 'require', '领域为必须', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
         array('tag', 'require', '级别为必须', self::EXISTS_VALIDATE, 'regex', self::MODEL_BOTH),
 
-        array('domain', 'require', '领域为必须', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
-
-        array('web_site', '', '期刊名已经存在', self::MUST_VALIDATE, 'unique', self::MODEL_BOTH),
+        array('web_site', 'require', '网址为必须', self::EXISTS_VALIDATE, 'regex', self::MODEL_BOTH),
+        array('web_site', 'url', '网址为格式错误', self::EXISTS_VALIDATE, 'regex', self::MODEL_BOTH),
     );
     /* 自动完成规则 */
     protected $_auto = array(

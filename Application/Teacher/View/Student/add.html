@@ -71,6 +71,14 @@
                                     <input type="text" placeholder="输入手机号码" value="{$info.phone}" name="phone" class="text input-large">
                                 </div>
                             </div>
+                            <div class="form-item cf toggle-public_name">
+                                <label class="item-label"> <span class="need_flag">*</span> 备注 <span class="check-tips">  </span></label>
+                                <div class="controls">
+                                    <label class="textarea input-large">
+                                        <textarea name="remark">{$info.remark}</textarea>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-item cf mt_10 bind_step_form_next_item">
                             <button target-form="form-horizontal" type="submit" id="submit" class="btn submit-btn ajax-post">确定</button>
@@ -94,8 +102,12 @@
            }
         });
 
-        var tagData = $('#tagData').val().split(',');
-
+        var tagData = $('#tagData').val();
+        if(tagData == ""){
+            tagData = [];
+        }else{
+            tagData = tagData.split(',');
+        }
         /**
          *
          * @param $input

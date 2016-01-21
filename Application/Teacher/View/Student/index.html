@@ -45,6 +45,7 @@
                             <th width="100">登录账号</th>
                             <th>标签</th>
                             <th>备注</th>
+                            <th width="130">加入时间</th>
                             <th width="150">操作</th>
                         </tr>
                         </thead>
@@ -59,6 +60,7 @@
                                 <td>{$vo.username}</td>
                                 <td>{$vo.tag}</td>
                                 <td>{$vo.remark}</td>
+                                <td>{$vo.create_time|time_format}</td>
                                 <td>
                                     <if condition="$vo.status eq 1">
                                         <a href="{:U('Student/chstatus',array('id'=>$vo['id'],'status'=>0))}" target="_self" class="ajax-get">禁用</a>
@@ -78,11 +80,16 @@
             <div class="page"> {$_page|default=''} </div>
         </section>
     </div>
-    <input type="hidden" id="tagData" value="{$tags}">
 </block>
 <block name="script">
     <script type="text/javascript">
-        var url = "__SELF__";
+        var url = "/{$Think.MODULE_NAME}/{$Think.CONTROLLER_NAME}/";
+        //导航高亮
+        $(".nav li a").each(function(i){
+            if($(this).attr('href').indexOf(url) >= 0){
+                $(this).parent().addClass('active');
+            }
+        });
         var tagData = $('#tagData').val().split(',');
         function TagSelecter(containerId,tagData){
             //生成tag

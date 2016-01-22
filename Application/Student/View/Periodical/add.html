@@ -1,0 +1,149 @@
+<extend name="Base/common" />
+<block name="body">
+    <div class="wrap">
+        <section id="contents">
+            <div class="tab-content">
+                <!-- 表单 -->
+                <form class="form-horizontal bind_step_form" method="post" action="{:U()}" id="form" style="overflow:hidden; zoom:1">
+                    <!-- 基础文档模型 -->
+                    <div class="tab-pane in tab1" id="tab1">
+                        <div class="item_wrap">
+
+                            <h3 style="padding-bottom:30px; text-align:center">
+                                <notempty name="info">
+                                    修改{$info.name}的信息
+                                    <input type="hidden" name="id" value="{$info.id}">
+                                    <else/>
+                                    新增期刊
+                                </notempty>
+                                </h3>
+
+                            <div class="form-item cf toggle-public_name">
+                                <label class="item-label"> <span class="need_flag">*</span> 期刊名称 <span class="check-tips"> （期刊的全名）  </span></label>
+                                <div class="controls">
+                                    <input type="text" placeholder="输入期刊名称" autocomplete="false" value="{$info.name}" name="name" class="text input-large">
+                                </div>
+                            </div>
+                            <div class="form-item cf toggle-public_name">
+                                <label class="item-label"> <span class="need_flag">*</span> 领域 <span class="check-tips"> （期刊所属领域）  </span></label>
+                                <div class="controls">
+                                    <input type="text" placeholder="输入期刊所属领域" value="{$info.domain}" name="domain" class="text input-large">
+                                </div>
+                            </div>
+                            <div class="form-item cf">
+                                <label class="item-label"> <span class="need_flag">*</span> 级别 <span class="check-tips">（用于标记期刊级别，比如CSSCI，多个标签用<span style="color: #ff0000">英文</span>逗号分隔）</span></label>
+                                <div class="controls">
+                                    <input type="text" id="tag" placeholder="输入级别，下面不存在的请手动输入" value="{$info.tag}" name="tag" class="text input-large">
+
+
+                                </div>
+                            </div>
+                            <div class="form-item cf toggle-public_name">
+                                <label class="item-label"> <span class="need_flag">*</span> 网址 <span class="check-tips"> （http://开头的完整网址）  </span></label>
+                                <div class="controls">
+                                    <input type="text" placeholder="输入期刊网址" value="{$info.web_site}" name="web_site" class="text input-large">
+                                </div>
+                            </div>
+                            <div class="form-item cf toggle-public_name">
+                                <label class="item-label"> 备注 <span class="check-tips">  </span></label>
+                                <div class="controls">
+                                    <label class="textarea input-large">
+                                        <textarea name="remark">{$info.remark}</textarea>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-item cf mt_10 bind_step_form_next_item">
+                            <button target-form="form-horizontal" type="submit" id="submit" class="btn submit-btn ajax-post">确定</button>
+                            <button target-form="form-horizontal" onclick="javascript:history.back(-1);return false;" class="btn return-btn">返回</button>
+                        </div>
+                    </div>
+                </form>
+                <input type="hidden" id="tagData" value="{$tags}">
+            </div>
+        </section>
+        </div>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        var url = "/{$Think.MODULE_NAME}/{$Think.CONTROLLER_NAME}/";
+        //导航高亮
+        $(".nav li a").each(function(i){
+           if($(this).attr('href').indexOf(url) >= 0){
+               $(this).parent().addClass('active');
+           }
+        });
+
+        var tagData = $('#tagData').val();
+        if(tagData == ""){
+            tagData = [];
+        }else{
+            tagData = tagData.split(',');
+        }
+
+
+//
+
+        /**
+         *
+         * @param $input
+         * @param tagData
+         * @constructor
+         */
+        function TagPicker(inputElementId,tagData){
+            var $input = $('#'+inputElementId);
+            var inputTagData = $input.val().split(',');
+            //生成tag
+            if(tagData.length == 0){
+                return;
+            }
+            var tagMap = {};
+
+            var htmlStr = '<div id="tagPicker" class="tag-picker" style="padding: 10px 0">';
+
+            htmlStr += '<ul>';
+            $.each(tagData,function(i,v){
+                tagMap[v] = i;
+                htmlStr += '<li data="'+v+'">'+v+'</li>';
+            });
+            htmlStr += '</ul>';
+            htmlStr += '</div>';
+            $div = $(htmlStr);
+            //注册事件
+            $div.find('ul li').each(function(index){
+                $(this).click(function(){
+                    if($(this).hasClass('select')){
+                        $(this).removeClass('select');
+                    }else{
+                        $(this).addClass('select');
+                    }
+                    updateInputVal();//更新值
+                })
+            });
+            //初始化选择
+            $.each(inputTagData,function(i,v){
+                $div.find('ul li[data='+v+']').addClass('select');
+            });
+
+            //输入框绑定编辑事件
+            $input.bind('input propertychange', function(e) {
+                var newTags = $(this).val();
+                var newTagsArray = newTags.split(',');
+                $div.find('ul li').removeClass('select');
+                $.each(newTagsArray,function(i,v){
+                    $div.find('ul li[data="'+v+'"]').addClass('select');
+                });
+            });
+            $input.after($div);
+            function updateInputVal(){
+                var arr = [];
+                $div.find('ul li.select').each(function(i){
+                    arr.push($(this).attr('data'));
+                });
+                $input.val(arr.join(','));
+            }
+        }
+        new TagPicker('tag',tagData);
+    </script>
+</block>

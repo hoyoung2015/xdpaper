@@ -16,7 +16,7 @@
                 <div class="search-form fr cf">
                     <div class="sleft" style="margin-right:10px;">
                         <select name="tag" style="border:none; padding:4px; margin:0;">
-                            <option value="{:U('Student/index')}">全部</option>
+                            <option value="{:U('Student/index')}">全部标签</option>
                             <volist name="tags" id="vo">
                                 <option value="{:U('Student/index',array('tag'=>$vo))}" <if condition="I('tag') eq $vo">selected</if> >{$vo}</option>
                             </volist>
@@ -90,7 +90,14 @@
                 $(this).parent().addClass('active');
             }
         });
-        var tagData = $('#tagData').val().split(',');
+        var tagData = $('#tagData').val();
+        console.log(tagData)
+        if(tagData!=undefined && tagData !='' ){
+            tagData = tagData.split(',');
+        }else{
+            tagData = [];
+        }
+
         function TagSelecter(containerId,tagData){
             //生成tag
             if(tagData.length == 0){

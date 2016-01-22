@@ -7,7 +7,6 @@
                 <div class="fl">
                     <div class="tools">
                         <a href="{:U('Periodical/add')}" class="btn">新增期刊</a>
-                        <a target-form="ids" href="{:U('Periodical/del')}" class="btn ajax-post confirm">删除</a>
                     </div>
                 </div>
                 <!-- 高级搜索 -->
@@ -37,9 +36,8 @@
                         <!-- 表头 -->
                         <thead>
                         <tr>
-                            <th class="row-selected row-selected"> <input type="checkbox" class="check-all regular-checkbox" id="checkAll">
-                                <label for="checkAll"></label></th>
-                            <th>期刊名</th>
+                            <th></th>
+                            <th>期刊名称</th>
                             <th width="100">级别</th>
                             <th width="120">领域</th>
                             <th>网址</th>
@@ -51,10 +49,9 @@
 
                         <!-- 列表 -->
                         <tbody>
-                        <volist name="list_data" id="vo">
+                        <volist name="list_data" id="vo" status="status">
                             <tr>
-                                <td><input type="checkbox" id="check_{$vo.id}" name="ids[]" value="{$vo.id}" class="ids regular-checkbox">
-                                    <label for="check_{$vo.id}"></label></td>
+                                <td class="text-center">{$row*((I('p')?I('p'):1)-1)+$key+1}</td>
                                 <td>{$vo.name}</td>
                                 <td>{$vo.tag}</td>
                                 <td>{$vo.domain}</td>
@@ -63,7 +60,6 @@
                                 <td>{$vo.create_time|time_format}</td>
                                 <td>
                                     <a href="{:U('Periodical/edit',array('id'=>$vo['id']))}" target="_self">编辑</a>
-                                    <a class="confirm" href="{:U('Periodical/del',array('id'=>$vo['id']))}" target="_self">删除</a>
                                 </td>
                             </tr>
                         </volist>

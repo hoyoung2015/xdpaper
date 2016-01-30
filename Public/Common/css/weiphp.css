@@ -93,7 +93,7 @@
 	100% {transform:scale(1,1);}
 } 
 /* 登录 */
-.login_box{width:300px; margin:45px auto; color:#666; padding:10px 30px 30px; background:#fff;}
+.login_box{width:300px; margin:30px auto; color:#666; padding:10px 30px 30px; background:#fff;}
 .login_box h6{ line-height:50px; font-size:18px;}
 .form_title{text-align:center; color:#ccc; font-size:16px; display:none}
 .login_box .form_body{ margin-top:10px;}

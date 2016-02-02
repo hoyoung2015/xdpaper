@@ -1,0 +1,98 @@
+<extend name="Base/common" />
+<block name="body">
+    <div class="wrap">
+        <section id="contents">
+            <div class="table-bar">
+
+                <div class="fl">
+                    <div class="tools">
+                        <a href="{:U('Paper/add')}" class="btn">新建期刊</a>
+                    </div>
+                </div>
+
+                <!-- 多维过滤 -->
+            </div>
+            <!-- 数据列表 -->
+            <div class="data-table">
+                <div id="tagSelector"></div>
+                <div class="table-striped">
+                    <table cellspacing="1">
+                        <!-- 表头 -->
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>题目简称</th>
+                            <th width="100">当前投稿期刊</th>
+                            <th width="120">进度</th>
+                            <th>备注</th>
+                            <th width="130">加入时间</th>
+                            <th width="150">操作</th>
+                        </tr>
+                        </thead>
+
+                        <!-- 列表 -->
+                        <tbody>
+                        <volist name="list_data" id="vo" status="status">
+                            <tr>
+                                <td class="text-center">{$row*((I('p')?I('p'):1)-1)+$key+1}</td>
+                                <td>{$vo.sname}</td>
+                                <td></td>
+                                <td></td>
+                                <td>{$vo.remark}</td>
+                                <td>{$vo.create_time|time_format}</td>
+                                <td>
+                                    <a href="{:U('Paper/edit',array('id'=>$vo['id']))}" target="_self">编辑</a>
+                                    <a class="confirm" href="{:U('Paper/del',array('id'=>$vo['id']))}" target="_self">删除</a>
+                                    <a href="{:U('Paper/submitCtrl',array('id'=>$vo['id']))}" target="_self">投稿管理</a>
+                                </td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="page"> {$_page|default=''} </div>
+        </section>
+    </div>
+</block>
+<block name="script">
+    <script type="text/javascript">
+        var url = "/{$Think.MODULE_NAME}/{$Think.CONTROLLER_NAME}/";
+        //导航高亮
+        $(".nav li a").each(function(i){
+            if($(this).attr('href').indexOf(url) >= 0){
+                $(this).parent().addClass('active');
+            }
+        });
+        $(function(){
+            //搜索功能
+            $("#search").click(function(){
+                var url = $(this).attr('url');
+                var query  = $('.search-form').find('input').serialize();
+                query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+                query = query.replace(/^&/g,'');
+                if( url.indexOf('?')>0 ){
+                    url += '&' + query;
+                }else{
+                    url += '?' + query;
+                }
+                if(query == '' ){
+                    url= $(this).attr('url');
+                    //url="{:addons_url($_REQUEST ['_addons'].'://'.$_REQUEST ['_controller'].'/lists')}";
+                }
+                window.location.href = url;
+            });
+
+            //回车自动提交
+            $('.search-form').find('input').keyup(function(event){
+                if(event.keyCode===13){
+                    $("#search").click();
+                }
+            });
+            $('select[name=tag]').change(function(){
+                location.href = this.value;
+            });
+
+        })
+    </script>
+</block>

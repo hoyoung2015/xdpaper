@@ -1,0 +1,23 @@
+<extend name="Base/common" />
+<block name="body">
+    <div class="wrap">
+        <section id="contents">
+            <div class="tab-content">
+
+            </div>
+        </section>
+        </div>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        var url = "/{$Think.MODULE_NAME}/{$Think.CONTROLLER_NAME}/";
+        //导航高亮
+        $(".nav li a").each(function(i){
+           if($(this).attr('href').indexOf(url) >= 0){
+               $(this).parent().addClass('active');
+           }
+        });
+
+    </script>
+</block>

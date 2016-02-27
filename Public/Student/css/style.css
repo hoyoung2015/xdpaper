@@ -48,3 +48,35 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 .tag-selector ul{
     text-align: center;
 }
+
+.submit-record{
+
+}
+.submit-record .submit-item{
+    margin-top: 20px;
+
+}
+.submit-record .submit-item .title{
+
+}
+    .submit-record .submit-item .submit-item-wrap{
+        margin-top: 10px;
+    }
+    .submit-record .submit-item .submit-item-wrap .info{
+        clear: both;overflow: auto
+    }
+    .submit-record .submit-item .submit-item-wrap .info .info-p{
+        float: left;line-height: 40px;padding-left: 20px
+    }
+    .submit-record .submit-item .submit-item-wrap .info .info-p span{
+        font-size: 16px;font-weight: bold;display: inline-block;padding-right: 30px
+    }
+    .submit-record .submit-item .submit-item-wrap .info .info-head{
+        background-color: green;display: inline-block;width: 40px;height: 40px; border-radius: 40px;float: left
+    }
+    .submit-record .submit-item .submit-item-wrap .info .info-head span{
+        line-height: 40px;color: #ffffff;font-size: 16px;display: inline-block;width: 40px;text-align: center
+    }
+    .submit-record .submit-item .submit-item-wrap .info-line{
+        margin-top: -1px;clear: both;margin-left: 19px;border-left: 2px solid gray;height: 20px
+    }

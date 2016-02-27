@@ -1,0 +1,70 @@
+<extend name="Base/common" />
+<block name="body">
+    <div class="wrap">
+        <section id="contents">
+            <div class="tab-content">
+                <!-- 表单 -->
+                <form class="form-horizontal bind_step_form" method="post" action="{:U()}" id="form" style="overflow:hidden; zoom:1">
+                    <!-- 基础文档模型 -->
+                    <div class="tab-pane in tab1" id="tab1">
+                        <div class="item_wrap">
+
+                            <h3 style="padding-bottom:30px; text-align:center">
+                                <notempty name="info">
+                                    修改{$info.name}的信息
+                                    <input type="hidden" name="id" value="{$info.id}">
+                                    <else/>
+                                    投稿
+                                </notempty>
+                            </h3>
+
+                            <div class="form-item cf">
+                                <label class="item-label"> <span class="need_flag">*</span> 选择期刊 <span class="check-tips"> </span></label>
+                                <div class="controls">
+                                    <select name="sex">
+                                        <volist name="periodical" id="vo" status="status">
+                                            <option value="{$vo.id}">{$vo.name}</option>
+                                        </volist>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-item cf toggle-public_name">
+                                <label class="item-label"> <span class="need_flag">*</span> 投稿时间 <span class="check-tips"> （论文的简称）  </span></label>
+                                <div class="controls">
+                                    <input type="text" placeholder="输入论文简称" autocomplete="false" value="{$info.sname}" id="datetimepicker" name="sname" class="text input-large">
+                                </div>
+                            </div>
+                            <div class="form-item cf toggle-public_name">
+                                <label class="item-label"> 备注 <span class="check-tips">  </span></label>
+                                <div class="controls">
+                                    <label class="textarea input-large">
+                                        <textarea name="remark">{$info.remark}</textarea>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-item cf mt_10 bind_step_form_next_item">
+                            <button target-form="form-horizontal" type="submit" id="submit" class="btn submit-btn ajax-post">确定</button>
+                            <button target-form="form-horizontal" onclick="javascript:history.back(-1);return false;" class="btn return-btn">返回</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        var url = "/{$Think.MODULE_NAME}/{$Think.CONTROLLER_NAME}/";
+        //导航高亮
+        $(".nav li a").each(function(i){
+            if($(this).attr('href').indexOf(url) >= 0){
+                $(this).parent().addClass('active');
+            }
+        });
+        $('#datetimepicker').datetimepicker({
+            format: 'yyyy-mm-dd hh:ii'
+        });
+    </script>
+</block>

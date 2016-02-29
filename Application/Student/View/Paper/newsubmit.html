@@ -31,7 +31,7 @@
                             <div class="form-item cf toggle-public_name">
                                 <label class="item-label"> <span class="need_flag">*</span> 投稿时间 <span class="check-tips"> （论文的简称）  </span></label>
                                 <div class="controls">
-                                    <input type="text" placeholder="输入论文简称" autocomplete="false" value="{$info.sname}" id="datetimepicker" name="sname" class="text input-large">
+                                    <input type="text" id="submitDate" readonly placeholder="输入投稿时间" class="text input-large submit-date">
                                 </div>
                             </div>
                             <div class="form-item cf toggle-public_name">
@@ -63,8 +63,6 @@
                 $(this).parent().addClass('active');
             }
         });
-        $('#datetimepicker').datetimepicker({
-            format: 'yyyy-mm-dd hh:ii'
-        });
+        $('#submitDate').datepicker({});
     </script>
 </block>

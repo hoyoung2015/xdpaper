@@ -1,4 +1,7 @@
 <extend name="Base/common" />
+<block name="style">
+    <link href="__PUBLIC__/static/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+</block>
 <block name="body">
     <div class="wrap">
         <section id="contents">
@@ -31,7 +34,7 @@
                             <div class="form-item cf toggle-public_name">
                                 <label class="item-label"> <span class="need_flag">*</span> 投稿时间 <span class="check-tips"> （论文的简称）  </span></label>
                                 <div class="controls">
-                                    <input type="text" id="submitDate" readonly placeholder="输入投稿时间" class="text input-large submit-date">
+                                    <input type="text" id="submitDate" placeholder="请选择投稿时间" class="text input-large submit-date">
                                 </div>
                             </div>
                             <div class="form-item cf toggle-public_name">
@@ -53,16 +56,22 @@
         </section>
     </div>
 </block>
-
 <block name="script">
+    <script type="application/javascript" src="__PUBLIC__/static/jquery-ui/jquery-ui.min.js"></script>
     <script type="text/javascript">
         var url = "/{$Think.MODULE_NAME}/{$Think.CONTROLLER_NAME}/";
-        //导航高亮
-        $(".nav li a").each(function(i){
-            if($(this).attr('href').indexOf(url) >= 0){
-                $(this).parent().addClass('active');
-            }
+        $(function() {
+
+            //导航高亮
+            $(".nav li a").each(function(i){
+                if($(this).attr('href').indexOf(url) >= 0){
+                    $(this).parent().addClass('active');
+                }
+            });
+            $( "#submitDate" ).datepicker();
         });
-        $('#submitDate').datepicker({});
+
+
+
     </script>
 </block>

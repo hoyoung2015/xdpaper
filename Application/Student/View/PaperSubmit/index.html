@@ -1,0 +1,79 @@
+<extend name="Base/common" />
+<block name="body">
+    <div class="wrap">
+        <section id="contents">
+            <neq name="ableToNewSubmitFlag" value="1">
+                <!-- ableToNewSubmitFlag==1时才能新增投稿 -->
+                <a class="btn btn-primary" href="{:U('PaperSubmit/newSubmit',array('paper_id'=>$paper['id']))}">点击投稿</a>
+            </neq>
+
+
+            <!-- 所投期刊列表 -->
+            <volist name="paperSubmits" id="vo" status="status">
+                <p>期刊：<a href="#">{$vo.periodical_name}</a></p>
+                <p>投递日期：{$vo.submit_date}</p>
+                <div class="data-table">
+                    <div id="tagSelector"></div>
+                    <div class="table-striped">
+                        <table cellspacing="1">
+                            <!-- 表头 -->
+                            <thead>
+                            <tr>
+                                <th width="40"></th>
+                                <th>状态</th>
+                                <th>备注</th>
+                                <th width="120">更新日期</th>
+                                <th width="100">
+                                    <a href="{:U('PaperSubmit/updateStatus',array('submit_id'=>$vo['id']))}">更新状态</a>
+                                </th>
+                            </tr>
+                            </thead>
+
+
+                            <tbody>
+                            <!-- 状态列表 -->
+                            <volist name="vo.record_arr" id="vo2" status="status">
+                                <tr>
+                                    <td class="text-center">{$key+1}</td>
+                                    <td>{$vo2.status_name}</td>
+                                    <td>{$vo2.remark}</td>
+                                    <td>{$vo2.update_date}</td>
+                                    <td>
+                                        <if condition="$vo2['is_active']==1 and $key==0">
+                                            <!-- 第一个可以进行删除 -->
+                                            <a class="confirm" href="{:U('PaperSubmit/delTopStatus',array('submit_id'=>$vo['id']))}" target="_self">删除</a>
+                                        </if>
+                                    </td>
+                                </tr>
+                            </volist>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <br>
+            </volist>
+
+
+
+        </section>
+        </div>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        var url = "/{$Think.MODULE_NAME}/{$Think.CONTROLLER_NAME}/";
+        //导航高亮
+        $(".nav li a").each(function(i){
+           if($(this).attr('href').indexOf(url) >= 0){
+               $(this).parent().addClass('active');
+           }
+        });
+        function updateStatus(paperSubmitId){
+            var dataUrl = "{:U('PaperSubmit/selectStatus',array('submit_id'=>'_submit_id_'))}";
+            dataUrl = dataUrl.replace("_submit_id_",paperSubmitId);
+            console.log(dataUrl);
+            var $contentHtml = $('<div><div class="goods_dialog" style="padding:10px; height:530px;overflow-y:hidden;overflow-x:hidden;"><div class="mt_10"><iframe id="usersIframe" name="usersIframe" style="height:530px;width:100%; border:none" border="0" src="'+dataUrl+'"></iframe></div></div><div class="btn_bar"><a href="javascript:;" class="btn confirm_btn">确定</a>&nbsp;&nbsp;<a href="javascript:;" class="border-btn cancel_btn">取消</a></div></div>');
+            $.Dialog.open("更新状态",{width:1000,height:640},$contentHtml);
+        }
+    </script>
+</block>

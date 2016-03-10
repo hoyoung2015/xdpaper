@@ -117,4 +117,27 @@ class PaperModel extends \Think\Model{
 
         return true;
     }
+
+    /**
+     * 第一次投稿
+     * @param array $input
+     * @return bool
+     */
+    public function addNewSubmit($input=array()){
+        /* 获取数据对象 */
+        $data = $this->create(array_merge($_POST,$input));
+
+        //检查paper_id是不是登陆者的
+
+
+        if(empty($data) || $data===false){
+            return false;
+        }
+
+        Log::record('新投递的数据'.json_encode($data),Log::DEBUG);
+
+        return true;
+    }
+
+
 }

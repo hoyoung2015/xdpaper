@@ -19,4 +19,19 @@ class StudentController extends Controller{
         $this->myinfo = M('Student')->where('id='.$userAuth['uid'])->find();
         Log::record('我的信息'.json_encode($this->myinfo),Log::DEBUG);
     }
+
+    /**
+     * 检查paper是不是登陆者的
+     * @param $paper_id
+     */
+    protected function checkPaperAuth($paper_id){
+        $paper = D('Paper')->where(array(
+            'id'=>$paper_id,
+            'sid'=>session('user_auth')['uid']
+        ))->find();
+        if($paper==null){
+            return false;
+        }
+        return $paper;
+    }
 }

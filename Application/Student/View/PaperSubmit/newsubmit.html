@@ -8,6 +8,7 @@
             <div class="tab-content">
                 <!-- 表单 -->
                 <form class="form-horizontal bind_step_form" method="post" action="{:U()}" id="form" style="overflow:hidden; zoom:1">
+                    <input type="hidden" name="paper_id" value="{$paper.id}">
                     <!-- 基础文档模型 -->
                     <div class="tab-pane in tab1" id="tab1">
                         <div class="item_wrap">
@@ -24,7 +25,7 @@
                             <div class="form-item cf">
                                 <label class="item-label"> <span class="need_flag">*</span> 选择期刊 <span class="check-tips"> </span></label>
                                 <div class="controls">
-                                    <select name="sex">
+                                    <select name="periodical_id">
                                         <volist name="periodical" id="vo" status="status">
                                             <option value="{$vo.id}">{$vo.name}</option>
                                         </volist>
@@ -34,7 +35,7 @@
                             <div class="form-item cf toggle-public_name">
                                 <label class="item-label"> <span class="need_flag">*</span> 投稿时间 <span class="check-tips"> （论文的简称）  </span></label>
                                 <div class="controls">
-                                    <input type="text" id="submitDate" placeholder="请选择投稿时间" class="text input-large submit-date">
+                                    <input type="text" id="submitDate" name="submit_date" placeholder="请选择投稿时间" class="text input-large submit-date">
                                 </div>
                             </div>
                             <div class="form-item cf toggle-public_name">
@@ -58,6 +59,7 @@
 </block>
 <block name="script">
     <script type="application/javascript" src="__PUBLIC__/static/jquery-ui/jquery-ui.min.js"></script>
+    <script type="application/javascript" src="__PUBLIC__/static/jquery-ui/ui/i18n/datepicker-zh-CN.js"></script>
     <script type="text/javascript">
         var url = "/{$Think.MODULE_NAME}/{$Think.CONTROLLER_NAME}/";
         $(function() {
@@ -68,7 +70,9 @@
                     $(this).parent().addClass('active');
                 }
             });
-            $( "#submitDate" ).datepicker();
+            $( "#submitDate" ).datepicker({
+                dateFormat: "yy-mm-dd"
+            });
         });
 
 

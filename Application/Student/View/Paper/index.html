@@ -43,7 +43,7 @@
                                 <td>
                                     <a href="{:U('Paper/edit',array('id'=>$vo['id']))}" target="_self">编辑</a>
                                     <a class="confirm" href="{:U('Paper/del',array('id'=>$vo['id']))}" target="_self">删除</a>
-                                    <a href="{:U('Paper/submitCtrl',array('id'=>$vo['id']))}" target="_self">投稿管理</a>
+                                    <a href="{:U('PaperSubmit/index',array('paper_id'=>$vo['id']))}" target="_self">投稿管理</a>
                                 </td>
                             </tr>
                         </volist>

@@ -76,18 +76,6 @@ class PaperController extends StudentController{
             $this->display('add');
         }
     }
-    public function submitCtrl($id = null){
 
-        $this->display();
-    }
-    public function newSubmit(){
-        if(IS_POST){
 
-        }else{
-            //查询期刊
-            $this->periodical = M('Periodical')->select();
-
-            $this->display();
-        }
-    }
 }

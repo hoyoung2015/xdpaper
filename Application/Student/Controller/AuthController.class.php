@@ -10,7 +10,6 @@ use Think\Controller;
 use Think\Log;
 class AuthController extends Controller{
     public function login($username = '', $password = '', $verify = ''){
-        Log::record('Student登录',Log::DEBUG);
         if(IS_POST){
             /* 检测验证码 */
 //            if(!check_verify($verify,2)){
@@ -18,8 +17,6 @@ class AuthController extends Controller{
 //            }
             $model = M('Student');
             $stu = $model->where(array('username'=>$username))->limit(1)->select();
-            Log::record('学生信息'.json_encode($stu),Log::DEBUG);
-            Log::record('密码'.json_encode($password),Log::DEBUG);
             if($stu && is_array($stu) && $stu[0]['password']===$password){
                 $stu = $stu[0];
                 if($stu['status']==0){

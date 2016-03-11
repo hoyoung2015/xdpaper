@@ -25,6 +25,7 @@ class PaperSubmitController extends StudentController{
  ps.id,ps.periodical_id,ps.remark,submit_date,ps.status,record_json,is_active,paper_id,submit_status,periodical.name as periodical_name
  from paper_submit as ps
  inner join periodical on periodical.id=ps.periodical_id
+ where paper_id='$paper_id'
  order by ps.create_time desc
 sql;
         $paperSubmits = $model->query($sql);
@@ -50,10 +51,19 @@ sql;
             'sid'=>session('user_auth')['uid'],
             'paper_id'=>$paper_id,
             'is_active'=>1
-        ))->find()?1:0;
+        ))->find()?0:1;
+        if($this->ableToNewSubmitFlag==1){
+            //检查是否已被录用
+            $this->ableToNewSubmitFlag = ($paper['is_active']==0&&$paper['paper_status']==C('PSSC')['ACCEPT'])?0:1;
+        }
 
-        Log::record('ableToNewSubmitFlag>>>>>'.$this->ableToNewSubmitFlag,Log::DEBUG);
+        Log::record('ableToNewSubmitFlag>>>>>'.json_encode($paper),Log::DEBUG);
 
+        //取出活跃投稿
+        if(count($paperSubmits)>0 && $paperSubmits[0]['is_active']==1){
+            //取出第一个
+            $this->activePaperSubmit = array_shift($paperSubmits);
+        }
 
         $this->paper = $paper;
         $this->paperSubmits = $paperSubmits;
@@ -70,13 +80,21 @@ sql;
 
             $model = D('Admin/PaperSubmit');
 
+            //检查次期刊是否已经投过了
+            $count = $model->where(array(
+                'paper_id'=>$paper_id,
+                'periodical_id'=>$_POST['periodical_id']
+            ))->count();
+            if($count>0){
+                $this->error('该期刊已经投过了');
+            }
             //生成初始状态
             $record_json_arr = array(
                 array(
                     'update_date'=>$_POST['submit_date'],
-                    'status_code'=>1,
-                    'status_name'=>'未投',
-                    'remark'=>'这是备注',
+                    'status_code'=>C('PSSC')['INIT'],
+                    'status_name'=>C('PSSC_NAME')['INIT'],
+                    'remark'=>$_POST['remark'],
                     'is_active'=>0  //未投是初始状态，都设为0
                 )
             );
@@ -85,7 +103,7 @@ sql;
             $res = $model->addSubmit(array(
                 'sid'=>session('user_auth')['uid'],
                 'record_json'=>json_encode($record_json_arr),
-                'submit_status'=>1
+                'submit_status'=>C('PSSC')['INIT']
             ));
             if($res){
                 $this->success('新投递成功！',U('index',array('paper_id'=>$paper['id'])));
@@ -107,28 +125,15 @@ sql;
         }
     }
     public function delTopStatus($submit_id){
-        $model = M('PaperSubmit');
-        $submit = $model->where(array(
-            'id'=>$submit_id
-        ))->find();
-        $record_arr = json_decode($submit['record_json'],true);
-        /**
-         * 只有一个的话是未投状态，不能删
-         */
-
-        array_shift($record_arr);
-        $submit['record_json'] = json_encode($record_arr);
-        $res = $model->save($submit);
-        Log::record('删除后保存的结果>>>>>'.$res,Log::DEBUG);
-
-        $this->success ( '删除成功' );
+        $model = D('Admin/PaperSubmit');
+        $res = $model->delTopStatus($submit_id);
+        $this->success ( '操作完成' ,U('index',array('paper_id'=>$res['paper_id'])));
     }
     public function updateStatus($submit_id=null){
+        $model = D('Admin/PaperSubmit');
         if(IS_POST){
 
 
-
-            $model = D('PaperSubmit');
             $paperSubmit = $model->find($_POST['submit_id']);
             $record_arr = json_decode($paperSubmit['record_json'],true);
 
@@ -138,12 +143,16 @@ sql;
             array_unshift($record_arr,array(
                 'update_date'=>$_POST['submit_date'],
                 'status_code'=>$_POST['status_code'],
-                'status_name'=>get_status_name($_POST['status_code']),
+                'status_name'=>get_status_name(intval($_POST['status_code'])),
                 'remark'=>$_POST['remark'],
                 'is_active'=>1  //活跃状态
             ));
+            $paperSubmit['submit_status'] = $_POST['status_code'];
             $paperSubmit['record_json'] = json_encode($record_arr);
-            $res = $model->save($paperSubmit);
+
+            $res = $model->updateStatus($paperSubmit);
+
+
 
             Log::record('更新投递状态后的结果>>>>>'.$res,Log::DEBUG);
             if($res){
@@ -152,7 +161,6 @@ sql;
                 $this->error($model->getError());
             }
         }else{
-            $model = M('PaperSubmit');
             $submit = $model->find($submit_id);
             $this->paper = M('Paper')->find($submit['paper_id']);
             $this->periodical = M('Periodical')->find($submit['periodical_id']);
@@ -161,21 +169,21 @@ sql;
 
             $current_status_code = $record_arr[0]['status_code'];
             $list = array();
-            if($current_status_code==1){
+            if($current_status_code==C('PSSC')['INIT']){
                 //未投->在审
                 array_push($list,array(
-                    'status_code'=>2,
-                    'status_name'=>'在审'
+                    'status_code'=>C('PSSC')['REVIEW'],
+                    'status_name'=>C('PSSC_NAME')['REVIEW']
                 ));
-            }else if($current_status_code==2){
+            }else if($current_status_code==C('PSSC')['REVIEW']){
                 //在审->拒绝或者在审->录用
                 array_push($list,array(
-                    'status_code'=>3,
-                    'status_name'=>'被拒'
+                    'status_code'=>C('PSSC')['REJECT'],
+                    'status_name'=>C('PSSC_NAME')['REJECT']
                 ));
                 array_push($list,array(
-                    'status_code'=>4,
-                    'status_name'=>'录用'
+                    'status_code'=>C('PSSC')['ACCEPT'],
+                    'status_name'=>C('PSSC_NAME')['ACCEPT']
                 ));
             }
             $this->assign('list_data',$list);
@@ -184,4 +192,15 @@ sql;
             $this->display();
         }
     }
+    public function closeSubmit($submit_id){
+        $model = D('Admin/PaperSubmit');
+        $res = $model->closeSubmit($submit_id);
+        if($res){
+            $this->success('操作完成',U('index',array('paper_id'=>$res['paper_id'])));
+        }else{
+            $this->error('出错了');
+        }
+    }
+
+
 }

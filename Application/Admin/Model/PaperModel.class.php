@@ -21,6 +21,7 @@ class PaperModel extends \Think\Model{
         array('status', 1, self::MODEL_INSERT, 'string'),
         array('update_time', 'time', self::MODEL_BOTH, 'function'),
         array('create_time', 'time', self::MODEL_INSERT, 'function'),
+        array('is_active', 1, self::MODEL_INSERT, 'integer'),
     );
 
     /**

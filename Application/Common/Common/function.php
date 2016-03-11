@@ -1075,3 +1075,12 @@ function array_values_merge()
         return array_values(array_unique($arr));
     }
 }
+function get_status_name($status_code){
+    $pssc  = C('PSSC');
+    foreach($pssc as $key=>$value){
+        if($value==$status_code){
+            return C('PSSC_NAME')[$key];
+        }
+    }
+    return null;
+}

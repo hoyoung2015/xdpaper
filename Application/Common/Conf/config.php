@@ -59,5 +59,22 @@ return array(
         'SITE_VERSION'=>'1.0',
     ),
     'PICTURE_UPLOAD_DRIVER' => 'Local',
-
+    'PSSC'=>array(
+        'INIT'=>100,
+        'REVIEW'=>200,
+        'REJECT'=>300,
+        'ACCEPT'=>400,
+    ),
+    'PSSC_NAME'=>array(
+        'INIT'=>'未投',
+        'REVIEW'=>'在审',
+        'REJECT'=>'被拒',
+        'ACCEPT'=>'录用',
+    ),
+    'PSSC_COLOR'=>array(
+        'INIT'=>'未投',
+        'REVIEW'=>'在审',
+        'REJECT'=>'被拒',
+        'ACCEPT'=>'录用',
+    ),
 );

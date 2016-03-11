@@ -14,12 +14,13 @@ function is_student_login(){
     }
     return $userAuth['uid'];
 }
-function get_status_name($status_code){
-    $arr = array(
-        1=>'未投',
-        2=>'在审',
-        3=>'被拒',
-        4=>'录用'
-    );
-    return $arr[$status_code];
+
+function get_status_color($status_code){
+    $pssc  = C('PSSC');
+    foreach($pssc as $key=>$value){
+        if($value==$status_code){
+            return C('PSSC_COLOR')[$key];
+        }
+    }
+    return null;
 }

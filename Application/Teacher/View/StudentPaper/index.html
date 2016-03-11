@@ -1,0 +1,177 @@
+<extend name="Base/common" />
+<block name="body">
+    <div class="wrap">
+        <section id="contents">
+            <div class="table-bar">
+
+                <!-- 高级搜索 -->
+                <div class="search-form fr cf">
+                    <div class="sleft" style="margin-right:10px;">
+                        <select name="tag" style="border:none; padding:4px; margin:0;">
+                            <option value="{:U('Student/index')}">学生标签</option>
+                            <volist name="tags" id="vo">
+                                <option value="{:U('Student/index',array('tag'=>$vo))}" <if condition="I('tag') eq $vo">selected</if> >{$vo}</option>
+                            </volist>
+                        </select>
+                    </div>
+                    <div class="sleft" style="margin-right:10px;">
+                        <select name="tag" style="border:none; padding:4px; margin:0;">
+                            <option value="{:U('Student/index')}">全部学生</option>
+                            <volist name="tags" id="vo">
+                                <option value="{:U('Student/index',array('tag'=>$vo))}" <if condition="I('tag') eq $vo">selected</if> >{$vo}</option>
+                            </volist>
+                        </select>
+                    </div>
+                    <div class="sleft" style="margin-right:10px;">
+                        <select name="tag" style="border:none; padding:4px; margin:0;">
+                            <option value="{:U('Student/index')}">全部期刊</option>
+                            <volist name="tags" id="vo">
+                                <option value="{:U('Student/index',array('tag'=>$vo))}" <if condition="I('tag') eq $vo">selected</if> >{$vo}</option>
+                            </volist>
+                        </select>
+                    </div>
+                    <div class="sleft" style="margin-right:10px;">
+                        <select name="tag" style="border:none; padding:4px; margin:0;">
+                            <option value="{:U('Student/index')}">全部状态</option>
+                            <volist name="tags" id="vo">
+                                <option value="{:U('Student/index',array('tag'=>$vo))}" <if condition="I('tag') eq $vo">selected</if> >{$vo}</option>
+                            </volist>
+                        </select>
+                    </div>
+                    <div class="sleft">
+                        <input type="text" placeholder="请输入论文名称" value="{:I('nickname')}" class="search-input" name="nickname">
+                        <a url="{:U('Student/index',$get_param)}" id="search" href="javascript:;" class="sch-btn"><i class="btn-search"></i></a>
+                    </div>
+
+                </div>
+
+                <!-- 多维过滤 -->
+            </div>
+            <!-- 数据列表 -->
+            <div class="data-table">
+                <div id="tagSelector"></div>
+                <div class="table-striped">
+                    <table cellspacing="1">
+                        <!-- 表头 -->
+                        <thead>
+                        <tr>
+                            <th class="row-selected row-selected"> <input type="checkbox" class="check-all regular-checkbox" id="checkAll">
+                                <label for="checkAll"></label></th>
+                            <th>论文</th>
+                            <th width="100">学生</th>
+                            <th>期刊</th>
+                            <th>状态</th>
+                            <th width="130">创建时间</th>
+                            <th width="150">操作</th>
+                        </tr>
+                        </thead>
+
+                        <!-- 列表 -->
+                        <tbody>
+                        <volist name="list_data" id="vo">
+                            <tr>
+                                <td><input type="checkbox" id="check_{$vo.id}" name="ids[]" value="{$vo.id}" class="ids regular-checkbox">
+                                    <label for="check_{$vo.id}"></label></td>
+                                <td>{$vo['name']}</td>
+                                <td><a href="#">{$vo['nickname']}</a></td>
+                                <td>
+                                    <notempty name="vo['periodical_id']">
+                                        <a href="{$vo['web_site']}">{$vo['pename']}</a>
+                                    </notempty>
+                                </td>
+                                <td>{$vo['paper_status_name']}</td>
+                                <td>{$vo.create_time|time_format}</td>
+                                <td>
+                                </td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="page"> {$_page|default=''} </div>
+        </section>
+    </div>
+</block>
+<block name="script">
+    <script type="text/javascript">
+        var url = "/{$Think.MODULE_NAME}/{$Think.CONTROLLER_NAME}/";
+        //导航高亮
+        $(".nav li a").each(function(i){
+            if($(this).attr('href').indexOf(url) >= 0){
+                $(this).parent().addClass('active');
+            }
+        });
+        var tagData = $('#tagData').val();
+        console.log(tagData)
+        if(tagData!=undefined && tagData !='' ){
+            tagData = tagData.split(',');
+        }else{
+            tagData = [];
+        }
+
+        function TagSelecter(containerId,tagData){
+            //生成tag
+            if(tagData.length == 0){
+                return;
+            }
+            $container = $('#'+containerId);
+            var htmlStr = '<div class="tag-selector" style="padding: 10px 0">';
+
+            htmlStr += '<ul>';
+            $.each(tagData,function(i,v){
+                htmlStr += '<li data="'+v+'">'+v+'</li>';
+            });
+            htmlStr += '</ul>';
+            htmlStr += '</div>';
+            $div = $(htmlStr);
+            //注册事件
+            $div.find('ul li').each(function(index){
+                $(this).click(function(){
+                    if($(this).hasClass('select')){
+                        $(this).removeClass('select');
+                    }else{
+                        $(this).addClass('select');
+                    }
+//                    updateInputVal();//更新值
+                })
+            });
+            $container.append($div);
+        }
+//        new TagSelecter('tagSelector',tagData);
+        //导航高亮
+        $(".nav li a[href='"+url+"']").parent().addClass('active');
+        $(function(){
+
+
+            //搜索功能
+            $("#search").click(function(){
+                var url = $(this).attr('url');
+                var query  = $('.search-form').find('input').serialize();
+                query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+                query = query.replace(/^&/g,'');
+                if( url.indexOf('?')>0 ){
+                    url += '&' + query;
+                }else{
+                    url += '?' + query;
+                }
+                if(query == '' ){
+                    url= $(this).attr('url');
+                    //url="{:addons_url($_REQUEST ['_addons'].'://'.$_REQUEST ['_controller'].'/lists')}";
+                }
+                window.location.href = url;
+            });
+
+            //回车自动提交
+            $('.search-form').find('input').keyup(function(event){
+                if(event.keyCode===13){
+                    $("#search").click();
+                }
+            });
+            $('select[name=tag]').change(function(){
+                location.href = this.value;
+            });
+
+        })
+    </script>
+</block>

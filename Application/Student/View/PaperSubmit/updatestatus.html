@@ -5,58 +5,47 @@
         .text{
             height: inherit;
         }
+        body{
+            background: #ffffff;
+        }
     </style>
 </block>
 <block name="body">
-    <div class="wrap">
-        <section id="contents">
-            <div class="tab-content">
-                <!-- 表单 -->
-                <form class="form-horizontal bind_step_form" method="post" action="{:U()}" id="form" style="overflow:hidden; zoom:1">
-                    <input type="hidden" name="submit_id" value="{$submit.id}">
-                    <!-- 基础文档模型 -->
-                    <div class="tab-pane in tab1" id="tab1">
-                        <div class="item_wrap">
-
-                            <h3 style="padding-bottom:30px; text-align:center">
-                                更新投稿状态
-                            </h3>
-                            <p>论文：{$paper.name}</p>
-                            <p>期刊：<a href="{$periodical.web_site}">{$periodical.name}</a> </p>
-                            <div class="form-item cf">
-                                <label class="item-label"> <span class="need_flag">*</span> 选择当前状态 <span class="check-tips"> </span></label>
-                                <div class="controls">
-                                    <select name="status_code">
-                                        <volist name="list_data" id="vo" status="status">
-                                            <option value="{$vo.status_code}">{$vo.status_name}</option>
-                                        </volist>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-item cf toggle-public_name">
-                                <label class="item-label"> <span class="need_flag">*</span> 更新日期 <span class="check-tips">   </span></label>
-                                <div class="controls">
-                                    <input type="text" id="submitDate" name="submit_date" placeholder="请选择更新日期" class="text input-large submit-date">
-                                </div>
-                            </div>
-                            <div class="form-item cf toggle-public_name">
-                                <label class="item-label"> 备注 <span class="check-tips">  </span></label>
-                                <div class="controls">
-                                    <label class="textarea input-large">
-                                        <textarea name="remark">{$info.remark}</textarea>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-item cf mt_10 bind_step_form_next_item">
-                            <button target-form="form-horizontal" type="submit" id="submit" class="btn submit-btn ajax-post">确定</button>
-                            <button target-form="form-horizontal" onclick="javascript:history.back(-1);return false;" class="btn return-btn">返回</button>
-                        </div>
+    <!-- 表单 -->
+    <form class="form-horizontal bind_step_form" method="post" action="{:U()}" id="form" style="overflow:hidden; zoom:1">
+        <input type="hidden" name="submit_id" value="{$submit.id}">
+        <!-- 基础文档模型 -->
+        <div class="tab-pane in tab1" id="tab1">
+            <div class="item_wrap">
+                <p>论文：{$paper.name}</p>
+                <p>期刊：<a href="{$periodical.web_site}">{$periodical.name}</a> </p>
+                <div class="form-item cf">
+                    <label class="item-label"> <span class="need_flag">*</span> 选择当前状态 <span class="check-tips"> </span></label>
+                    <div class="controls">
+                        <select name="status_code">
+                            <volist name="list_data" id="vo" status="status">
+                                <option value="{$vo.status_code}">{$vo.status_name}</option>
+                            </volist>
+                        </select>
                     </div>
-                </form>
+                </div>
+                <div class="form-item cf toggle-public_name">
+                    <label class="item-label"> <span class="need_flag">*</span> 更新日期 <span class="check-tips">   </span></label>
+                    <div class="controls">
+                        <input type="text" id="submitDate" name="submit_date" placeholder="请选择更新日期" class="text input-large submit-date">
+                    </div>
+                </div>
+                <div class="form-item cf toggle-public_name">
+                    <label class="item-label"> 备注 <span class="check-tips">  </span></label>
+                    <div class="controls">
+                        <label class="textarea input-large">
+                            <textarea name="remark">{$info.remark}</textarea>
+                        </label>
+                    </div>
+                </div>
             </div>
-        </section>
-    </div>
+        </div>
+    </form>
 </block>
 <block name="script">
     <script type="application/javascript" src="__PUBLIC__/static/jquery-ui/jquery-ui.min.js"></script>

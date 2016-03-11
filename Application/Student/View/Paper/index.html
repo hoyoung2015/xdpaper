@@ -6,7 +6,7 @@
 
                 <div class="fl">
                     <div class="tools">
-                        <a href="{:U('Paper/add')}" class="btn">新建期刊</a>
+                        <a href="{:U('Paper/add')}" class="btn">创建论文</a>
                     </div>
                 </div>
 
@@ -36,14 +36,24 @@
                             <tr>
                                 <td class="text-center">{$row*((I('p')?I('p'):1)-1)+$key+1}</td>
                                 <td>{$vo.sname}</td>
-                                <td></td>
-                                <td></td>
+                                <td>
+                                    <notempty name="vo['periodical']">
+                                        <a href="{$vo['periodical']['web_site']}">{$vo['periodical']['name']}</a>
+                                        <else/>未投稿
+                                    </notempty>
+                                </td>
+                                <td>{$vo.paper_status}</td>
                                 <td>{$vo.remark}</td>
                                 <td>{$vo.create_time|time_format}</td>
                                 <td>
-                                    <a href="{:U('Paper/edit',array('id'=>$vo['id']))}" target="_self">编辑</a>
-                                    <a class="confirm" href="{:U('Paper/del',array('id'=>$vo['id']))}" target="_self">删除</a>
                                     <a href="{:U('PaperSubmit/index',array('paper_id'=>$vo['id']))}" target="_self">投稿管理</a>
+                                    <a href="{:U('Paper/edit',array('id'=>$vo['id']))}" target="_self">编辑</a>
+                                    <eq name="vo['is_active']" value="1">
+                                        <a class="confirm" href="{:U('Paper/del',array('id'=>$vo['id']))}" target="_self">删除</a>
+                                    </eq>
+
+
+
                                 </td>
                             </tr>
                         </volist>

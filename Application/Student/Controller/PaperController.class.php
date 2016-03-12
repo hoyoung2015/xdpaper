@@ -12,7 +12,7 @@ class PaperController extends StudentController{
     public function index($name = ''){
         $page = I ( 'p', 1, 'intval' ); // 默认显示第一页数据
         $map = array(
-//            'tid'=>session('user_auth')['uid']
+            'sid'=>session('user_auth')['uid']
         );
         empty($name) || $map['name'] = array('like', '%'.(string)$name.'%');
 

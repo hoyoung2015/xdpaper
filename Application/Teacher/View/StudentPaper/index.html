@@ -1,51 +1,186 @@
 <extend name="Base/common" />
+<block name="style">
+    <style type="text/css">
+        #positionHead{
+            margin: 20px;
+        }
+        ul.filter-wrapper li.li-taller .dn{
+            display: none;
+        }
+        ul.filter-wrapper{
+            position:relative;
+            margin-top:35px;
+            background-color:#fafafa;
+            border:1px solid #e8e8e8;
+            min-height:36px;
+            padding:6px 0
+        }
+        ul.filter-wrapper li{
+            zoom:1;color:#555
+        }
+        ul.filter-wrapper li:before,ul.filter-wrapper li:after{
+            content:"";display:table
+        }
+        ul.filter-wrapper li:after{
+            clear:both
+        }
+        ul.filter-wrapper li span,ul.filter-wrapper li a,ul.filter-wrapper li .btn-more{
+            float:left;
+            margin-right:5px;
+            padding:5px 8px;
+            height:14px;
+            line-height:14px
+        }
+        ul.filter-wrapper li span{
+            font-weight:600;margin-right:-5px
+        }
+        ul.filter-wrapper li a.active,ul.filter-wrapper li a:hover{
+            background-color:#00b38a;color:#fff
+        }
+        ul.filter-wrapper li .btn-more{
+            position:relative;
+            z-index:11;float:right;
+            margin-top:-6px;margin-bottom:-6px;
+            padding-top:11px;padding-bottom:11px;
+            -webkit-box-sizing:content-box;
+            -moz-box-sizing:content-box;box-sizing:content-box;
+            background-color:transparent
+        }
+        ul.filter-wrapper li .btn-more i{
+            position:absolute;top:15px;right:-3px;font-size:0;height:0;
+            width:0;border-width:6px 6px 0;border-style:solid dashed;
+            border-color:#00b38a transparent transparent;overflow:hidden;
+            -webkit-transition:all .4s ease 0s;-moz-transition:all .4s ease 0s;
+            -o-transition:all .4s ease 0s;transition:all .4s ease 0s
+        }
+        ul.filter-wrapper li .btn-more:hover{
+            background-color:transparent;color:#555
+        }
+        ul.filter-wrapper li .btn-more:hover i{
+            -webkit-transform:rotate(180deg);
+            -moz-transform:rotate(180deg);
+            -ms-transform:rotate(180deg);
+            transform:rotate(180deg);
+            animation-fill-mode:forwards
+        }
+        ul.filter-wrapper li.li-taller{
+            padding:12px 16px;
+            position:absolute;
+            left:0;
+            top:0;
+            z-index:10;
+            display: none;
+        }
+        ul.filter-wrapper li.first{
+            border-bottom:1px dashed #e8e8e8
+        }
+        ul.filter-wrapper .has-more{
+            position:relative
+        }
+        ul.filter-wrapper .has-more .more{
+            display:none;
+            position:absolute;
+            z-index:10;top:0;
+            left:-1px;
+            right:-1px;
+            background-color:#fff;
+            margin-top:-1px;
+            border:1px solid #e8e8e8
+        }
+        ul.filter-wrapper .has-more .more.unfolded{
+            display:block
+        }
+        ul.filter-wrapper .has-more .more .other{
+            border-top:1px dashed #e8e8e8
+        }
+        ul.filter-wrapper .details{
+            position:relative;
+            overflow:visible;
+            background:#fafafa
+        }
+        ul.filter-wrapper .details li{
+            padding:6px
+        }
+        .btn-collapse-wrapper{
+            position:relative;
+            margin-top:-1px;
+            text-align:center
+        }
+        .btn-collapse-wrapper .btn-collapse{
+            display:block;
+            margin:0 auto;
+            height:15px;
+            width:36px;
+            border:1px solid #e8e8e8;
+            border-top-color:#fafafa;
+            background:#fafafa url(http://pstatic.lagou.com/www/static/search-result/modules/filter/img/arrow_up_b7a7618.png) center no-repeat
+        }
+        .btn-collapse-wrapper .btn-collapse.collapsed{
+            background-image:url(http://pstatic.lagou.com/www/static/search-result/modules/filter/img/arrow_down_861e6c6.png)
+        }
+    </style>
+</block>
 <block name="body">
     <div class="wrap">
         <section id="contents">
-            <div class="table-bar">
 
-                <!-- 高级搜索 -->
-                <div class="search-form fr cf">
-                    <div class="sleft" style="margin-right:10px;">
-                        <select name="tag" style="border:none; padding:4px; margin:0;">
-                            <option value="{:U('Student/index')}">学生标签</option>
-                            <volist name="tags" id="vo">
-                                <option value="{:U('Student/index',array('tag'=>$vo))}" <if condition="I('tag') eq $vo">selected</if> >{$vo}</option>
-                            </volist>
-                        </select>
-                    </div>
-                    <div class="sleft" style="margin-right:10px;">
-                        <select name="tag" style="border:none; padding:4px; margin:0;">
-                            <option value="{:U('Student/index')}">全部学生</option>
-                            <volist name="tags" id="vo">
-                                <option value="{:U('Student/index',array('tag'=>$vo))}" <if condition="I('tag') eq $vo">selected</if> >{$vo}</option>
-                            </volist>
-                        </select>
-                    </div>
-                    <div class="sleft" style="margin-right:10px;">
-                        <select name="tag" style="border:none; padding:4px; margin:0;">
-                            <option value="{:U('Student/index')}">全部期刊</option>
-                            <volist name="tags" id="vo">
-                                <option value="{:U('Student/index',array('tag'=>$vo))}" <if condition="I('tag') eq $vo">selected</if> >{$vo}</option>
-                            </volist>
-                        </select>
-                    </div>
-                    <div class="sleft" style="margin-right:10px;">
-                        <select name="tag" style="border:none; padding:4px; margin:0;">
-                            <option value="{:U('Student/index')}">全部状态</option>
-                            <volist name="tags" id="vo">
-                                <option value="{:U('Student/index',array('tag'=>$vo))}" <if condition="I('tag') eq $vo">selected</if> >{$vo}</option>
-                            </volist>
-                        </select>
-                    </div>
-                    <div class="sleft">
-                        <input type="text" placeholder="请输入论文名称" value="{:I('nickname')}" class="search-input" name="nickname">
-                        <a url="{:U('Student/index',$get_param)}" id="search" href="javascript:;" class="sch-btn"><i class="btn-search"></i></a>
-                    </div>
 
-                </div>
+            <div id="positionHead" style="margin: 20px">
+                <ul id="filterBox" class="filter-wrapper">
+                    <li class="li-taller brief dn" id="filterBrief">
+                        <span class="title">学生标签：</span>
+                        <a href="javascript:;" class="active">北京</a>
+                        <span class="title">学生姓名：</span>
+                        <a href="javascript:;" class="active">不限</a>
+                        <span class="title">期刊标签：</span>
+                        <a href="javascript:;" class="active">不限</a>
+                        <span class="title">期刊名称：</span>
+                        <a href="javascript:;" class="active">不限</a>
+                    </li>
+                    <div class="details" id="filterCollapse">
+                        <div class="has-more">
+                            <li>
+                                <span class="title">学生标签：</span>
 
-                <!-- 多维过滤 -->
+                                <a <empty name="stag">class="active"</empty> href="{:U('StudentPaper/index',array('stag'=>'','ptag'=>$ptag,'p'=>$p))}">不限</a>
+
+
+
+                                <volist name="studentTags" id="vo">
+
+                                    <a <eq name="stag" value="$vo">class="active"</eq> href="{:U('StudentPaper/index',array('stag'=>$vo,'ptag'=>$ptag))}">{$vo}</a>
+                                </volist>
+                            </li>
+
+                        </div>
+
+                        <li><span class="title">学生姓名：</span>
+                            <a <empty name="s">class="active"</empty> href="{:U('StudentPaper/index',array('stag'=>$stag,'ptag'=>$ptag,'p'=>$p))}">不限</a>
+
+                            <volist name="students" id="vo">
+                                <a <eq name="s" value="$vo['id']">class="active"</eq> href="{:U('StudentPaper/index',array('stag'=>$stag,'ptag'=>$ptag,'p'=>$p,'s'=>$vo['id']))}">{$vo['nickname']}</a>
+                            </volist>
+
+                        </li>
+
+                        <li><span class="title">期刊标签：</span>
+
+                            <a <empty name="ptag">class="active"</empty> href="{:U('StudentPaper/index',array('stag'=>$stag,'s'=>$s))}">不限</a>
+                            <volist name="periodicalTags" id="vo">
+                                <a <eq name="ptag" value="$vo">class="active"</eq> href="{:U('StudentPaper/index',array('stag'=>$stag,'ptag'=>$vo,'s'=>$s))}">{$vo}</a>
+                            </volist>
+
+                        </li>
+                        <li><span class="title">期刊名称：</span>
+
+                            <a <empty name="p">class="active"</empty> href="{:U('StudentPaper/index',array('stag'=>$stag,'s'=>$s))}">不限</a>
+                            <volist name="periodicals" id="vo">
+                                <a <eq name="p" value="$vo['id']">class="active"</eq> href="{:U('StudentPaper/index',array('stag'=>$stag,'ptag'=>$ptag,'p'=>$vo['id'],'s'=>$s))}">{$vo['name']}</a>
+                            </volist>
+
+                        </li>
+                    </div>
+                </ul>
             </div>
             <!-- 数据列表 -->
             <div class="data-table">
@@ -55,7 +190,8 @@
                         <!-- 表头 -->
                         <thead>
                         <tr>
-                            <th class="row-selected row-selected"> <input type="checkbox" class="check-all regular-checkbox" id="checkAll">
+                            <th class="row-selected row-selected">
+                                <input type="checkbox" class="check-all regular-checkbox" id="checkAll">
                                 <label for="checkAll"></label></th>
                             <th>论文</th>
                             <th width="100">学生</th>
@@ -103,7 +239,6 @@
             }
         });
         var tagData = $('#tagData').val();
-        console.log(tagData)
         if(tagData!=undefined && tagData !='' ){
             tagData = tagData.split(',');
         }else{

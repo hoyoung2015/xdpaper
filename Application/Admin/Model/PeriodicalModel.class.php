@@ -73,7 +73,7 @@ class PeriodicalModel extends \Think\Model{
                 $tagsOutput = array_values_merge($tagsOutput,explode(',',$tag['tag']));
             }
         }
-        Log::record('期刊处理后的标签：'.json_encode($tagsOutput),Log::DEBUG);
+
         sort($tagsOutput);
         return $tagsOutput;
     }

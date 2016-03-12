@@ -26,3 +26,5 @@ print_r($arr);
 
 
 print_r(json_decode("[{\"age\":12}]",true));
+
+echo vsprintf("%s word",array('hello'));

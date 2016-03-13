@@ -63,7 +63,7 @@
                                 <td>{$vo.create_time|time_format}</td>
                                 <td>
                                     <a href="{:U('Periodical/edit',array('id'=>$vo['id']))}" target="_self">编辑</a>
-                                    <a class="confirm" href="{:U('Periodical/del',array('id'=>$vo['id']))}" target="_self">删除</a>
+                                    <a class="ajax-get" href="{:U('Periodical/del',array('id'=>$vo['id']))}" target="_self">删除</a>
                                 </td>
                             </tr>
                         </volist>

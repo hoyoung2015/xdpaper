@@ -19,6 +19,13 @@ class TeacherController extends CommonController{
         }
 
         $this->myinfo = M('Teacher')->where('id='.$userAuth['uid'])->find();
+
+        //统计未读消息
+        $this->notReadIndex = M('TeacherMsg')->where(array(
+            'tid'=>$userAuth['uid'],
+            'read'=>0
+        ))->count();
+
         Log::record('我的信息'.json_encode($this->myinfo),Log::DEBUG);
     }
 }

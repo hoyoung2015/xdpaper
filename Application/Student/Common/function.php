@@ -24,3 +24,11 @@ function get_status_color($status_code){
     }
     return null;
 }
+function send_msg_to_tacher($tid='',$content='',$url=''){
+
+    $msgModel = D('Admin/TeacherMsg');
+    $msgModel->add(array(
+
+    ));
+    return true;
+}

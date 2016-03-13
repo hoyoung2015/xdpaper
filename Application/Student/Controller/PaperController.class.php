@@ -19,7 +19,7 @@ class PaperController extends StudentController{
         $row = 10;
 
         $model = D('Admin/Paper');
-        $list = $model->where($map)->page($page,$row)->select();
+        $list = $model->where($map)->order('create_time desc')->page($page,$row)->select();
 
         $count = $model->where($map)->count();
         // 分页
@@ -53,7 +53,8 @@ class PaperController extends StudentController{
         $model = D('Admin/Paper');
         if(IS_POST){
             $data = $model->update(array(
-                'sid'=>session('user_auth')['uid']
+                'sid'=>session('user_auth')['uid'],
+                'paper_status'=>C('PSSC')['NEW']
             ));
             if($data===false){//失败
                 $this->error($model->getError());

@@ -32,4 +32,5 @@ class StudentController extends Controller{
         }
         return $paper;
     }
+
 }

@@ -26,6 +26,15 @@ class PeriodicalModel extends \Think\Model{
         array('create_time', 'time', self::MODEL_INSERT, 'function'),
     );
 
+    public function get($id){
+        $info = $this->where(array(
+            'id'=>$id
+        ))->find();
+        //去掉标签首尾的逗号
+        $info['tag'] = substr($info['tag'],1,count($info['tag'])-2);
+        return $info;
+    }
+
     /**
      * @param array $input 想要新增加的数据
      * @param array $where 更新条件
@@ -39,11 +48,13 @@ class PeriodicalModel extends \Think\Model{
             return false;
         }
 
-        Log::record('将要存入数据库中的学生数据'.json_encode($data),Log::DEBUG);
+        //补充首尾的逗号
+        $data['tag'] = ",".$data['tag'].",";
+        Log::record('补充逗号后的标签：'.json_encode($data['tag']),Log::DEBUG);
         /* 添加或新增行为 */
         if(empty($data['id'])){ //新增数据
 
-            $id = $this->add(); //添加行为
+            $id = $this->add($data); //添加行为
 
             if(!$id){
                 $this->error = $this->getError();
@@ -52,7 +63,7 @@ class PeriodicalModel extends \Think\Model{
         } else { //更新数据
             $status = $this->where(array_merge(array(
                 'id'=>$data['id']
-            ),$where))->save(); //更新基础内容
+            ),$where))->save($data); //更新基础内容
             if(false === $status){
                 $this->error = '更新行为出错！';
                 return false;
@@ -69,12 +80,15 @@ class PeriodicalModel extends \Think\Model{
         $tagsOutput = array();
         foreach($tags as $tag){
             if(!empty($tag['tag'])){
+                //去掉首尾逗号
 
+                $tag['tag'] = substr($tag['tag'],1,count($tag['tag'])-2);
                 $tagsOutput = array_values_merge($tagsOutput,explode(',',$tag['tag']));
             }
         }
 
         sort($tagsOutput);
+        Log::record('期刊处理后的标签数组：'.json_encode($tagsOutput),Log::DEBUG);
         return $tagsOutput;
     }
     public function del($where = array()){

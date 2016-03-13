@@ -35,7 +35,7 @@
                         <volist name="list_data" id="vo" status="status">
                             <tr>
                                 <td class="text-center">{$row*((I('p')?I('p'):1)-1)+$key+1}</td>
-                                <td>{$vo.sname}</td>
+                                <td><a href="{:U('PaperSubmit/index',array('paper_id'=>$vo['id']))}" target="_self">{$vo.sname}</a></td>
                                 <td>
                                     <notempty name="vo['periodical']">
                                         <a href="{$vo['periodical']['web_site']}">{$vo['periodical']['name']}</a>

@@ -17,12 +17,17 @@ class StudentController extends TeacherController{
         );
         Log::record('tag的值'.$tag,Log::DEBUG);
         empty($nickname) || $map['nickname'] = array('like', '%'.(string)$nickname.'%');
-        empty($tag) || ($map['tag'] = array('like', '%'.(string)$tag.'%'));
+        empty($tag) || ($map['tag'] = array('like', '%,'.(string)$tag.',%'));
 
         $row = 10;
 
         $model = D('Admin/Student');
         $list = $model->where($map)->page($page,$row)->select();
+
+        //去掉标签首尾的逗号
+        foreach($list as &$pe){
+            $pe['tag'] = substr($pe['tag'],1,count($pe['tag'])-2);
+        }
 
         $count = $model->where($map)->count();
         // 分页
@@ -68,10 +73,10 @@ class StudentController extends TeacherController{
                 $this->success('学生信息修改成功！',U('index'));
             }
         }else{
-            $this->info = $model->where(array(
+            $this->info = $model->get(array(
                 'id'=>$sid,
                 'tid'=>session('user_auth')['uid']
-            ))->find();
+            ));
             $this->tags = implode(',',$model->findGroup());
             $this->display('add');
         }

@@ -11,7 +11,47 @@ use Think\Log;
 class IndexController extends TeacherController{
     public function index(){
 
-        Log::record('Teacher IndexController',Log::DEBUG);
+        $model = M('Paper');
+        //全部
+        $this->total = $model->where()->count();
+        //未投
+        $this->totalNew = $model->where(array(
+            'paper_status'=>C('PSSC')['NEW']
+            ))->count();
+
+        //初审
+        $this->totalInit = $model->where(array(
+            'paper_status'=>C('PSSC')['INIT']
+            ))->count();
+        //外审
+        $this->totalReview = $model->where(array(
+            'paper_status'=>C('PSSC')['REVIEW']
+            ))->count();
+        //外审
+        $this->totalReject = $model->where(array(
+            'paper_status'=>C('PSSC')['REJECT']
+        ))->count();
+        //录用
+        $this->totalAccept = $model->where(array(
+            'paper_status'=>C('PSSC')['ACCEPT']
+            ))->count();
+
+
+        $studentModel = D('Admin/Student');
+        $tags = $studentModel->findGroup();
+        $stuCount = array(array(
+            'tag'=>'全部',
+            'num'=>$studentModel->count()
+        ));
+        foreach($tags as $tag){
+            $studentCount = $studentModel->where(array('tag'=>array('like',"%,$tag,%")))->count();
+            array_push($stuCount,array(
+                'tag'=>$tag,
+                'num'=>$studentCount
+            ));
+        }
+
+        $this->assign('stu_count',$stuCount);
         $this->display();
     }
     public function center(){

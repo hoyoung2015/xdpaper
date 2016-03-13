@@ -16,12 +16,17 @@ class PeriodicalController extends TeacherController{
         );
         Log::record('tag的值'.$tag,Log::DEBUG);
         empty($name) || $map['name'] = array('like', '%'.(string)$name.'%');
-        empty($tag) || ($map['tag'] = array('like', '%'.(string)$tag.'%'));
+        empty($tag) || ($map['tag'] = array('like', '%,'.(string)$tag.',%'));
 
         $row = 10;
 
         $model = D('Admin/Periodical');
         $list = $model->where($map)->page($page,$row)->select();
+
+        //去掉标签首尾的逗号
+        foreach($list as &$pe){
+            $pe['tag'] = substr($pe['tag'],1,count($pe['tag'])-2);
+        }
 
         $count = $model->where($map)->count();
         // 分页
@@ -64,14 +69,44 @@ class PeriodicalController extends TeacherController{
                 $this->success('期刊信息修改成功！',U('index'));
             }
         }else{
-            $this->info = $model->where(array(
-                'id'=>$id
-            ))->find();
+            $this->info = $this->info = $model->get($id);
             $this->tags = implode(',',$model->findGroup());
             $this->display('add');
         }
     }
     public function del($ids = null){
-        parent::common_del(M('Periodical'),array(),$ids);
+        Log::record('删除的ids'.json_encode($ids),Log::DEBUG);
+
+        if($ids==null){
+            $ids = array(I ( 'id' ));
+        }
+
+        $delete_ids = array();
+        //删除依赖检查
+        foreach($ids as $id){
+            $count = M('PaperSubmit')->where("periodical_id=$id")->count();
+
+            if($count<1){//没有被引用
+
+                array_push($delete_ids,$id);
+            }
+        }
+        Log::record('待删除的id'.json_encode($delete_ids),Log::DEBUG);
+
+        if(empty($delete_ids)){
+
+            $this->error('期刊被引用');
+        }
+        Log::record('$count==>>>>>>>>>>>>>>>>>>.'.'--------------',Log::DEBUG);
+        $res = M('Periodical')->where(array(
+            'id'=>array('IN',$delete_ids)
+        ))->delete();
+
+        if($res){
+            $this->success('操作完成！',U('index'));
+        }else{
+            $this->error('系统错误');
+        }
+
     }
 }

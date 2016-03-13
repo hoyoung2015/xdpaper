@@ -60,6 +60,7 @@
                                 <td>{$vo.create_time|time_format}</td>
                                 <td>
                                     <a href="{:U('Periodical/edit',array('id'=>$vo['id']))}" target="_self">编辑</a>
+                                    <a href="javascript:void(0)" onclick="setPeriodPassd({$vo['id']})">账号管理</a>
                                 </td>
                             </tr>
                         </volist>
@@ -109,6 +110,54 @@
                 location.href = this.value;
             });
 
-        })
+        });
+        function setPeriodPassd(period_id){
+            var dataUrl = "{:U('Periodical/checkLoginPassd',array('period_id'=>'_period_id_'))}";
+            var postUrl = "{:U('Periodical/checkLoginPassd')}";
+            dataUrl = dataUrl.replace("_period_id_",period_id);
+            console.log(dataUrl);
+            var $contentHtml = $('<div><div class="goods_dialog" style="padding:10px;overflow-x:hidden;"><div class="mt_10"><iframe name="checkLoginPassd" id="checkLoginPassd" style="border:none;width:100%;" border="0" src="'+dataUrl+'"></iframe></div></div><div class="btn_bar"><a href="javascript:;" class="btn confirm_btn">确定</a>&nbsp;&nbsp;<a href="javascript:;" class="border-btn cancel_btn">取消</a></div></div>');
+            $.Dialog.open("验证登陆密码",{width:400,height:280},$contentHtml);
+            $('.cancel_btn',$contentHtml).click(function(){
+                $.Dialog.close();
+            })
+            $('.confirm_btn',$contentHtml).click(function(){
+
+                var $form = $(window.frames["checkLoginPassd"].document,$contentHtml).find("form");
+                var passd = $form.find("input[name='password']").val();
+                var period_id = $form.find("input[name='period_id']").val();
+                $.post(postUrl,{"password":passd,"period_id":period_id},function(data){
+                    console.log(data)
+                    if(data.status==1){
+                        //投递成功
+                        if (data.url) {
+                            updateAlert(data.info + ' 页面即将自动跳转~','alert-success');
+                        }else{
+                            updateAlert(data.info,'alert-success');
+                        }
+                        setTimeout(function(){
+                            if (data.url) {
+                                location.href=data.url;
+                            }else if( $(that).hasClass('no-refresh')){
+                                $('#top-alert').find('button').click();
+                            }else{
+                                location.reload();
+                            }
+                        },1500);
+                    }else{
+                        console.log(data.info)
+                        updateAlert(data.info);
+                        setTimeout(function(){
+                            if (data.url) {
+                                location.href=data.url;
+                            }else{
+                                $('#top-alert').find('button').click();
+                            }
+                        },1500);
+                    }
+                })
+            })
+        }
+
     </script>
 </block>

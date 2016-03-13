@@ -36,6 +36,8 @@ class AuthController extends Controller{
                 $map = array(
                     'usertype'=>'student',
                     'username'=>$username,
+                    'tid'=>$stu['tid'],
+                    'nickname'=>$stu['nickname'],
                     'uid'=>$stu['id']
                 );
                 session('user_auth',$map);

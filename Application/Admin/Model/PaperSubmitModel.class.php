@@ -84,7 +84,7 @@ class PaperSubmitModel extends \Think\Model{
 
         if($finalStatusCode==C('PSSC')['REJECT']){//被拒
             $this->save($paperSubmit);
-
+            //更新Paper状态为未投
             return $paperSubmit;
         }elseif($finalStatusCode==C('PSSC')['ACCEPT']){//录用
             $this->save($paperSubmit);

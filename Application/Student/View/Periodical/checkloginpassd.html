@@ -1,0 +1,26 @@
+<include file="Public/head"/>
+<block name="style">
+    <link href="__PUBLIC__/static/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+    <style type="text/css">
+        .text{
+            height: inherit;
+        }
+        body{
+            background: #ffffff;
+        }
+    </style>
+</block>
+<block name="body">
+    <!-- 表单 -->
+    <form class="form-horizontal bind_step_form" method="post" action="{:U()}" id="form" style="overflow:hidden; zoom:1">
+        <input name="period_id" value="{$period_id}" type="hidden"/>
+        <!-- 基础文档模型 -->
+        <div class="tab-pane in tab1" id="tab1">
+            <div class="form-item cf toggle-public_name">
+                <div class="controls" style="text-align: center;margin-top: 40px">
+                    <input type="password" id="password" name="password" placeholder="输入登陆密码" class="text input-middle">
+                </div>
+            </div>
+        </div>
+    </form>
+</block>

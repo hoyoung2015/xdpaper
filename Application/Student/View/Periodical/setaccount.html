@@ -1,0 +1,69 @@
+<extend name="Base/common" />
+<block name="style">
+    <link href="__PUBLIC__/static/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+</block>
+<block name="body">
+    <div class="wrap">
+        <section id="contents">
+            <div class="tab-content">
+                <!-- 表单 -->
+                <form class="form-horizontal bind_step_form" method="post" action="{:U()}" id="form" style="overflow:hidden; zoom:1">
+                    <input type="hidden" name="id" value="{$info.id}">
+                    <input type="hidden" name="period_id" value="{$period.id}">
+                    <!-- 基础文档模型 -->
+                    <div class="tab-pane in tab1" id="tab1">
+                        <div class="item_wrap">
+
+                            <h3 style="padding-bottom:30px; text-align:center">
+                                设置期刊账户信息
+                            </h3>
+                            <p>期刊：{$period.name}</p>
+
+                            <div class="form-item cf toggle-public_name">
+                                <label class="item-label"> <span class="need_flag">*</span> 用户名 <span class="check-tips"> （在该期刊注册的用户名）  </span></label>
+                                <div class="controls">
+                                    <input type="text" id="username" name="username" value="{$info['username']}" placeholder="请输入用户名" class="text input-large">
+                                </div>
+                            </div>
+                            <div class="form-item cf toggle-public_name">
+                                <label class="item-label"> <span class="need_flag">*</span> 密码 <span class="check-tips">   </span></label>
+                                <div class="controls">
+                                    <input type="text" id="password" name="password" value="{$info['password']}" placeholder="请输入密码" class="text input-large">
+                                </div>
+                            </div>
+                            <div class="form-item cf toggle-public_name">
+                                <label class="item-label"> 备注 <span class="check-tips">  </span></label>
+                                <div class="controls">
+                                    <label class="textarea input-large">
+                                        <textarea name="remark">{$info.remark}</textarea>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-item cf mt_10 bind_step_form_next_item">
+                            <button target-form="form-horizontal" type="submit" id="submit" class="btn submit-btn ajax-post">确定</button>
+                            <button target-form="form-horizontal" onclick="javascript:history.back(-1);return false;" class="btn return-btn">返回</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+</block>
+<block name="script">
+    <script type="text/javascript">
+        var url = "/{$Think.MODULE_NAME}/{$Think.CONTROLLER_NAME}/";
+        $(function() {
+
+            //导航高亮
+            $(".nav li a").each(function(i){
+                if($(this).attr('href').indexOf(url) >= 0){
+                    $(this).parent().addClass('active');
+                }
+            });
+        });
+
+
+
+    </script>
+</block>

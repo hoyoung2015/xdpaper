@@ -1,38 +1,38 @@
 <extend name="Base/common" />
 <block name="body">
     <div class="span9 page_message">
-        <section id="contents"> <include file="Addons/_nav" />
-            <div class="table-bar">
-                <h2 style="text-align: center;color: #bbb">这里还没想好放什么</h2>
-            </div>
-        </section>
-    </div>
-    <!-- 用户分组弹框 -->
-    <div class="group_html" style="display:none">
-        <div class="manage_group normal_dialog">
-            <div class="content">
-                <!--            <select name="type" id="select_type" style="width:25%">
-                                    <option value="0">移入</option>
-                                    <option value="1">移出</option>
-                            </select>-->
-                <select name="group" id="select_group" style="width:100%">
-                    <volist name="auth_group" id="vo">
-                        <option value="{$vo.id}">{$vo.title}</option>
+        <div class="data-table fl" style="margin: 20px;width: 300px">
+            <div class="table-striped">
+                <table cellspacing="1" class="text-center">
+                    <thead>
+                    <th colspan="2" style="text-align: center">
+                        论文统计
+                    </th>
+                    </thead>
+                    <!-- 列表 -->
+                    <tbody>
+                    <volist name="paper_count" id="vo">
+                        <tr>
+                            <td width="100">{$vo['name']}</td>
+                            <td>
+                                <eq name="key" value="0">
+                                    <a href="{:U('Paper/index')}">{$vo['num']}</a>
+                                    <else/>
+                                    {$vo['num']}
+                                </eq>
+                            </td>
+                        </tr>
                     </volist>
-                </select>
-                <div class="btn_wrap"><button class="btn setting_group" url="{:U('changeGroup')}" target-form="ids">确定</button></div>
+
+                    </tbody>
+                </table>
             </div>
         </div>
-    </div>
-    <!-- 备注用户名 -->
-    <div class="remark_html" style="display:none">
-        <div class="manage_group normal_dialog">
-            <div class="content">
-                <input name="remark" id="set_remark" value="" placeholder="请输入备注信息" class="text"  />
-                <div class="btn_wrap"><button class="btn setting_remark" url="{:U('set_remark')}">确定</button></div>
-            </div>
+        <div class="" style="padding: 20px">
+            <h1>使用说明</h1>
         </div>
     </div>
+
 
 </block>
 <block name="script">

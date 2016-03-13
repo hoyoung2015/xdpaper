@@ -12,6 +12,20 @@ use Think\Log;
 class IndexController extends StudentController{
     public function index(){
 
+        $model = D('Admin/Paper');
+        $paper_count = array(
+            array(
+                'name'=>'全部',
+                'num'=>$model->count()
+            )
+        );
+        foreach(C('PSSC') as $key=>$value){
+            array_push($paper_count,array(
+                'name'=>get_status_name($value),
+                'num'=>$model->where(array('paper_status'=>$value))->count()
+            ));
+        }
+        $this->assign('paper_count',$paper_count);
         $this->display();
     }
     /*

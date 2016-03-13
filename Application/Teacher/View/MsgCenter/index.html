@@ -130,67 +130,27 @@
                     <li class="li-taller brief dn" id="filterBrief">
                         <span class="title">学生标签：</span>
                         <a href="javascript:;" class="active">北京</a>
-                        <span class="title">学生姓名：</span>
-                        <a href="javascript:;" class="active">不限</a>
-                        <span class="title">期刊标签：</span>
-                        <a href="javascript:;" class="active">不限</a>
-                        <span class="title">期刊名称：</span>
-                        <a href="javascript:;" class="active">不限</a>
-                        <span class="title">投稿状态：</span>
-                        <a href="javascript:;" class="active">不限</a>
                     </li>
                     <div class="details" id="filterCollapse">
                         <div class="has-more">
                             <li>
-                                <span class="title">学生标签：</span>
-
-                                <a <empty name="stag">class="active"</empty> href="{:U('StudentPaper/index',array('stag'=>'','ptag'=>$ptag,'p'=>$p))}">不限</a>
-
-
-
-                                <volist name="studentTags" id="vo">
-
-                                    <a <eq name="stag" value="$vo">class="active"</eq> href="{:U('StudentPaper/index',array('stag'=>$vo,'ptag'=>$ptag,'ps'=>$ps))}">{$vo}</a>
-                                </volist>
+                                <a <eq name="read" value="100">class="active"</eq> href="{:U('MsgCenter/index')}">全部</a>
+                                <a <eq name="read" value="0">class="active"</eq> href="{:U('MsgCenter/index',array('read'=>0))}">未读({$notRead})</a>
+                                <a <eq name="read" value="1">class="active"</eq> href="{:U('MsgCenter/index',array('read'=>1))}">已读({$hasRead})</a>
                             </li>
 
                         </div>
 
-                        <li><span class="title">学生姓名：</span>
-                            <a <empty name="s">class="active"</empty> href="{:U('StudentPaper/index',array('stag'=>$stag,'ptag'=>$ptag,'p'=>$p))}">不限</a>
-
-                            <volist name="students" id="vo">
-                                <a <eq name="s" value="$vo['id']">class="active"</eq> href="{:U('StudentPaper/index',array('stag'=>$stag,'ptag'=>$ptag,'p'=>$p,'s'=>$vo['id'],'ps'=>$ps))}">{$vo['nickname']}</a>
-                            </volist>
-
-                        </li>
-
-                        <li><span class="title">期刊标签：</span>
-
-                            <a <empty name="ptag">class="active"</empty> href="{:U('StudentPaper/index',array('stag'=>$stag,'s'=>$s))}">不限</a>
-                            <volist name="periodicalTags" id="vo">
-                                <a <eq name="ptag" value="$vo">class="active"</eq> href="{:U('StudentPaper/index',array('stag'=>$stag,'ptag'=>$vo,'s'=>$s,'ps'=>$ps))}">{$vo}</a>
-                            </volist>
-
-                        </li>
-                        <li><span class="title">期刊名称：</span>
-
-                            <a <empty name="pe">class="active"</empty> href="{:U('StudentPaper/index',array('stag'=>$stag,'s'=>$s))}">不限</a>
-                            <volist name="periodicals" id="vo">
-                                <a <eq name="pe" value="$vo['id']">class="active"</eq> href="{:U('StudentPaper/index',array('stag'=>$stag,'ptag'=>$ptag,'pe'=>$vo['id'],'s'=>$s,'ps'=>$ps))}">{$vo['name']}</a>
-                            </volist>
-
-                        </li>
-                        <li><span class="title">投稿状态：</span>
-
-                            <a <empty name="ps">class="active"</empty> href="{:U('StudentPaper/index',array('stag'=>$stag,'s'=>$s))}">不限</a>
-                            <volist name="paperStatus" id="vo">
-                                <a <eq name="ps" value="$vo['code']">class="active"</eq> href="{:U('StudentPaper/index',array('stag'=>$stag,'ptag'=>$ptag,'pe'=>$pe,'s'=>$s,'ps'=>$vo['code']))}">{$vo['name']}</a>
-                            </volist>
-
-                        </li>
                     </div>
                 </ul>
+            </div>
+            <div class="table-bar">
+
+                <div class="fl">
+                    <div class="tools">
+                        <a target-form="ids" href="{:U('MsgCenter/setRead')}" class="btn ajax-post">标记为已读</a>
+                    </div>
+                </div>
             </div>
             <!-- 数据列表 -->
             <div class="data-table">
@@ -203,10 +163,7 @@
                             <th class="row-selected row-selected">
                                 <input type="checkbox" class="check-all regular-checkbox" id="checkAll">
                                 <label for="checkAll"></label></th>
-                            <th>论文</th>
-                            <th width="100">学生</th>
-                            <th>期刊</th>
-                            <th>状态</th>
+                            <th>内容</th>
                             <th width="130">创建时间</th>
                         </tr>
                         </thead>
@@ -215,16 +172,22 @@
                         <tbody>
                         <volist name="list_data" id="vo">
                             <tr>
-                                <td><input type="checkbox" id="check_{$vo.id}" name="ids[]" value="{$vo.id}" class="ids regular-checkbox">
-                                    <label for="check_{$vo.id}"></label></td>
-                                <td>{$vo['name']}</td>
-                                <td>{$vo['nickname']}</td>
                                 <td>
-                                    <notempty name="vo['periodical_id']">
-                                        <a href="{$vo['web_site']}" target="_blank">{$vo['pename']}</a>
-                                    </notempty>
+                                    <eq name="vo['read']" value="0">
+                                        <input type="checkbox" id="check_{$vo.id}" name="ids[]" value="{$vo.id}" class="ids regular-checkbox">
+                                        <label for="check_{$vo.id}"></label>
+                                    </eq>
+
+
                                 </td>
-                                <td>{$vo['paper_status_name']}</td>
+                                <td>
+                                    <eq name="vo['read']" value="1">
+                                        {$vo['content']}
+                                        <else/>
+                                        <span style="color: black">{$vo['content']}</span>
+                                    </eq>
+
+                                </td>
                                 <td>{$vo.create_time|time_format}</td>
                             </tr>
                         </volist>

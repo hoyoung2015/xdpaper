@@ -22,7 +22,7 @@ class PaperSubmitController extends StudentController{
         $model = M();
         $sql = <<<sql
         select
- ps.id,ps.periodical_id,ps.remark,submit_date,ps.status,record_json,is_active,paper_id,submit_status,periodical.name as periodical_name
+ ps.id,ps.periodical_id,ps.remark,submit_date,ps.status,record_json,is_active,paper_id,submit_status,periodical.name as periodical_name,periodical.web_site as periodical_site
  from paper_submit as ps
  inner join periodical on periodical.id=ps.periodical_id
  where paper_id='$paper_id'
@@ -106,6 +106,14 @@ sql;
                 'submit_status'=>C('PSSC')['INIT']
             ));
             if($res){
+                $user = session('user_auth');
+                $content = $user['nickname']."的论文《".'aa'."》进入 ".get_status_name(C('PSSC')['INIT'])." 状态";
+//                $url = U('StudentPaper')
+                //发送消息
+                D('Admin/TeacherMsg')->receiveMsg($user['tid'],$content,'');
+
+
+
                 $this->success('新投递成功！',U('index',array('paper_id'=>$paper['id'])));
             }else{
                 $this->error($model->getError());
@@ -156,6 +164,13 @@ sql;
 
             Log::record('更新投递状态后的结果>>>>>'.$res,Log::DEBUG);
             if($res){
+                $user = session('user_auth');
+                $content = $user['nickname']."的论文《".'aa'."》进入 ".get_status_name($paperSubmit['submit_status'])." 状态";
+//                $url = U('StudentPaper')
+                //发送消息
+                D('Admin/TeacherMsg')->receiveMsg($user['tid'],$content,'');
+
+
                 $this->success('投递状态更新成功！',U('index',array('paper_id'=>$paperSubmit['paper_id'])));
             }else{
                 $this->error($model->getError());
@@ -174,6 +189,10 @@ sql;
                 array_push($list,array(
                     'status_code'=>C('PSSC')['REVIEW'],
                     'status_name'=>C('PSSC_NAME')['REVIEW']
+                ));
+                array_push($list,array(
+                    'status_code'=>C('PSSC')['REJECT'],
+                    'status_name'=>C('PSSC_NAME')['REJECT']
                 ));
             }else if($current_status_code==C('PSSC')['REVIEW']){
                 //在审->拒绝或者在审->录用

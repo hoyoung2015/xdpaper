@@ -12,7 +12,7 @@ class PeriodicalController extends StudentController{
     public function index($tag = '',$name = ''){
         $page = I ( 'p', 1, 'intval' ); // 默认显示第一页数据
         $map = array(
-//            'tid'=>session('user_auth')['uid']
+            'tid'=>session('user_auth')['tid'] //注意，这里是tid，学生在登陆的时候session也记录了导师信息
         );
         Log::record('tag的值'.$tag,Log::DEBUG);
         empty($name) || $map['name'] = array('like', '%'.(string)$name.'%');
@@ -29,11 +29,9 @@ class PeriodicalController extends StudentController{
 
         $count = $model->where($map)->count();
         // 分页
-        if ($count > $row) {
-            $page = new \Think\Page ( $count, $row );
-            $page->setConfig ( 'theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%' );
-            $this->assign('_page',$page->show ());
-        }
+        $page = new \Think\Page ( $count, $row );
+        $page->setConfig ( 'theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%' );
+        $this->assign('_page',$page->show ());
 
         $this->tags = $model->findGroup();
         $this->assign('list_data',$list);
@@ -48,7 +46,7 @@ class PeriodicalController extends StudentController{
         $model = D('Admin/Periodical');
         if(IS_POST){
             $data = $model->update(array(
-//                'tid'=>session('user_auth')['uid']
+                'tid'=>session('user_auth')['tid']
             ));
             if($data===false){//失败
                 $this->error($model->getError());
@@ -64,7 +62,7 @@ class PeriodicalController extends StudentController{
         $model = D('Admin/Periodical');
         if(IS_POST){
             $data = $model->update(array(),array(
-//                'tid'=>session('user_auth')['uid']
+                'tid'=>session('user_auth')['tid']
             ));
             if($data===false){//失败
                 $this->error($model->getError());

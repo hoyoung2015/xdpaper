@@ -6,9 +6,8 @@
     <div class="login_header">
 
         <div class="log_wrap">
-            <a style="line-height: 50px" class="brand" title="{:C('WEB_SITE_TITLE')}" href="{:U('index/index')}">
-                <!--<img height="52" src="__COMMON__/images/logo.png"/>-->
-                LOGO
+            <a class="brand" title="{:C('WEB_SITE_TITLE')}" href="{:U('index/index')}">
+                <img height="52" src="__COMMON__/images/logo.png"/>
             </a>
         </div>
 
@@ -21,7 +20,7 @@
                 <form class="login-form" action="__SELF__" method="post">
                     <input type="hidden" value="{$u}">
                     <div class="form_body">
-                        <h6>{:C('WEB_SITE_TITLE')}欢迎使用论文投稿系统（导师入口）</h6>
+                        <h6>{:C('WEB_SITE_TITLE')}欢迎使用论文投稿系统（<span style="color: red">导师入口</span> ）</h6>
                         <div class="input_panel">
                             <div class="control-group">
                                 <label class="control-label" for="inputEmail">用户名</label>

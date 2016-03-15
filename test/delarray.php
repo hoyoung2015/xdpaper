@@ -28,3 +28,5 @@ print_r($arr);
 print_r(json_decode("[{\"age\":12}]",true));
 
 echo vsprintf("%s word",array('hello'));
+print_r(array());
+echo preg_match('/^([\{u4e00}-\{u9fa5}]{1,},){0,}([\{u4e00}-\{u9fa5}]{1,})$/',"测试");

@@ -2,7 +2,11 @@
  * weiphp公用css
  */
 /* 登录头部 */
-#login_body{ background:url(../images/about/img/bg.jpg) no-repeat center top; background-size:100% 100%}
+#login_body{
+	/*background:url(../images/about/img/bg.jpg) no-repeat center top; */
+	/*background-size:100% 100%*/
+
+}
 .login_header{ height:68px;}
 .login_header .logo{ height:60px; margin:4px 0;}
 .login_header .nav_r{ float:right; margin:22px 0 0; color:#fff}
@@ -186,7 +190,7 @@ background-clip: none;
 .sidenav_parent img{ width:20px; height:20px; margin-right:5px; vertical-align:-5px;}
 /* 主栏 */
 .no_side_main_body{margin:0 auto; width:1200px; min-height:600px;}
-.main_body{ margin:0 auto; width:998px; min-height:500px;}
+.main_body{ width:998px; min-height:500px;}
 .admin_container{ margin:36px auto; width:1200px; background:#fff; border:1px solid #d9dadc;position:relative; }
 .admin_container .main_body{ vertical-align:top; }
 .empty_container{ padding:100px 0; text-align:center}

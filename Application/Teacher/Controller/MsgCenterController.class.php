@@ -61,4 +61,14 @@ class MsgCenterController extends TeacherController{
             }
         }
     }
+    public function setAllRead(){
+        $res = M('TeacherMsg')->where(array(
+            'read'=>0
+        ))->save(array('read'=>1));
+        if($res){
+            $this->success('标记完成',U('index'));
+        }else{
+            $this->error('消息都为已读了');
+        }
+    }
 }

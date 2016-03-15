@@ -82,21 +82,40 @@ class StudentController extends TeacherController{
         }
     }
     public function del($ids = null){
+        Log::record('删除的ids'.json_encode($ids),Log::DEBUG);
 
-        /*$map = array(
-            'tid'=>session('user_auth')['uid'],
-            'id'=>$sid
-        );
+        if($ids==null){
+            $ids = array(I ( 'id' ));
+        }
 
-        $model = D('Admin/Student');
-        if(D('Admin/Student')->del($map)){
-            $this->success('学生删除成功！',U('index'));
-        }else{
-            $this->error($model->getError());
-        }*/
-        parent::common_del(M('Student'),array(
+        $delete_ids = array();
+        //删除依赖检查
+        $paperModel = M('Paper');
+        foreach($ids as $id){
+            $count = $paperModel->where("sid=$id")->count();
+
+            if($count<1){//没有被引用
+
+                array_push($delete_ids,$id);
+            }
+        }
+        Log::record('待删除的id'.json_encode($delete_ids),Log::DEBUG);
+
+        if(empty($delete_ids)){
+
+            $this->error('学生有论文，不能删除');
+        }
+        Log::record('$count==>>>>>>>>>>>>>>>>>>.'.'--------------',Log::DEBUG);
+        $res = M('Student')->where(array(
+            'id'=>array('IN',$delete_ids),
             'tid'=>session('user_auth')['uid']
-        ),$ids);
+        ))->delete();
+
+        if($res){
+            $this->success('操作完成！',U('index'));
+        }else{
+            $this->error('系统错误');
+        }
     }
     public function chstatus($ids = null,$status = null){
         ! empty ( $ids ) || $ids = I ( 'id' );

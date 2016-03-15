@@ -7,7 +7,7 @@
                 <div class="fl">
                     <div class="tools">
                         <a href="{:U('Student/add')}" class="btn">新增学生</a>
-                        <a target-form="ids" href="{:U('Student/del')}" class="btn ajax-post confirm">删除</a>
+                        <a target-form="ids" href="{:U('Student/del')}" class="btn btn-danger ajax-post confirm">删除</a>
                         <a target-form="ids" href="{:U('Student/chstatus',array('status'=>1))}" class="btn ajax-post">启用</a>
                         <a target-form="ids" href="{:U('Student/chstatus',array('status'=>0))}" class="btn ajax-post">禁用</a>
                     </div>
@@ -69,7 +69,7 @@
                                     </if>
 
                                     <a href="{:U('Student/edit',array('sid'=>$vo['id']))}" target="_self">编辑</a>
-                                    <a class="confirm" href="{:U('Student/del',array('id'=>$vo['id']))}" target="_self">删除</a>
+                                    <a class="ajax-get" href="{:U('Student/del',array('id'=>$vo['id']))}" target="_self">删除</a>
                                 </td>
                             </tr>
                         </volist>
@@ -128,7 +128,6 @@
         }
 //        new TagSelecter('tagSelector',tagData);
         //导航高亮
-        $(".nav li a[href='"+url+"']").parent().addClass('active');
         $(function(){
 
 

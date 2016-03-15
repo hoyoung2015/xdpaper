@@ -20,12 +20,12 @@ class StudentPaperController extends TeacherController{
         Log::record('论文搜索条件$row>>'.$row,Log::DEBUG);
 
         $model = M();
-
+        $tid = session('user_auth')['uid'];
         $sql = <<<sqlBody
 SELECT <field> FROM xdpaper.paper as p
 inner join student as s on p.sid=s.id
 left join periodical as pe on pe.id=p.periodical_id
-where 1=1
+where s.tid=$tid
 sqlBody;
         if(!empty($stag)){//学生标签
             $sql = $sql." and s.tag like '%,$stag,%'";
@@ -48,23 +48,24 @@ sqlBody;
 
 
         // 分页
-        if ($count > $row) {
+        $page = new \Think\Page ( $count, $row, array(
+            'stag'=>$stag,
+            's'=>$s,
+            'ptag'=>$ptag,
+            'pe'=>$pe
+        ));
+        $page->setConfig ( 'theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%' );
+        $this->assign('_page',$page->show ());
 
-            $page = new \Think\Page ( $count, $row, array(
-                'stag'=>$stag,
-                's'=>$s,
-                'ptag'=>$ptag,
-                'pe'=>$pe
-            ));
-            $page->setConfig ( 'theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%' );
-            $this->assign('_page',$page->show ());
-            $limit = " limit ".$page->firstRow.",$row";
-        }
+        Log::record('====>>>>>>>>分页'.json_encode($page),Log::DEBUG);
+
+        $limit = " limit ".$page->firstRow.",$row";
+
         $order = " order by p.create_time desc";
 
         $sql = $sql.$order;
 
-        $limit = " limit $row";
+//        $limit = " limit $row";
 //
         $field = "p.*,s.nickname,s.id as sid,pe.name as pename,pe.web_site";
         $list = $model->query(str_replace('<field>',$field,$sql).$limit);
@@ -75,15 +76,17 @@ sqlBody;
 
         $this->assign('list_data',$list);
         //查询学生标签
-        $this->studentTags = D('Admin/Student')->findGroup();
+        $this->studentTags = D('Admin/Student')->findGroup(array('tid'=>$tid));
         //查询学生
         $this->students = M('Student')->where(array(
+            'tid'=>$tid,
             'tag'=>array('like',"%$stag%")
         ))->field('id,nickname')->select();
         //查询期刊标签
-        $this->periodicalTags = D('Admin/Periodical')->findGroup();
+        $this->periodicalTags = D('Admin/Periodical')->findGroup(array('tid'=>$tid));
         //查询期刊
         $this->periodicals = M('Periodical')->where(array(
+            'tid'=>$tid,
             'tag'=>array('like',"%$ptag%")
         ))->field('id,name')->select();
         //查询投稿状态集合
@@ -107,5 +110,48 @@ sqlBody;
 
         $this->display();
     }
+    public function showSubmit($paper_id){
+        if(!$paper_id){
+            $this->error('错误的操作');
+        }
+        //检查是不是这个导师的学生的
 
+        $paper = M('Paper')->find($paper_id);
+
+        //查询多条提交记录
+
+        $sql = <<<sql
+        select
+ ps.id,ps.periodical_id,ps.remark,submit_date,ps.status,record_json,is_active,paper_id,submit_status,periodical.name as periodical_name,periodical.web_site as periodical_site
+ from paper_submit as ps
+ inner join periodical on periodical.id=ps.periodical_id
+ where paper_id='$paper_id'
+ order by ps.create_time desc
+sql;
+        $model = M();
+        $paperSubmits = $model->query($sql);
+
+
+        for($i=0;$i<count($paperSubmits);$i++){
+            //解析json字符串格式的记录
+            $paperSubmits[$i]['record_arr'] = json_decode($paperSubmits[$i]['record_json'],true);
+            $paperSubmits[$i]['record_json'] = null;
+            //理论上只有第一个在投的可以修改
+            if($i==0){
+
+            }
+        }
+//        p($paperSubmits);die();
+
+
+        //取出活跃投稿
+        if(count($paperSubmits)>0 && $paperSubmits[0]['is_active']==1){
+            //取出第一个
+            $this->activePaperSubmit = array_shift($paperSubmits);
+        }
+
+        $this->paper = $paper;
+        $this->paperSubmits = $paperSubmits;
+        $this->display();
+    }
 }

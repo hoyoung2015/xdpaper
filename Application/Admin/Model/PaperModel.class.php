@@ -37,6 +37,8 @@ class PaperModel extends \Think\Model{
             return false;
         }
 
+
+
         Log::record('将要存入数据库中的论文数据'.json_encode($data),Log::DEBUG);
         /* 添加或新增行为 */
         if(empty($data['id'])){ //新增数据

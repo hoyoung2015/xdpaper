@@ -75,8 +75,8 @@ class StudentModel extends \Think\Model{
         return $data;
 
     }
-    public function findGroup(){
-        $tags = $this->distinct(true)->field('tag')->select();
+    public function findGroup($map = array()){
+        $tags = $this->distinct(true)->field('tag')->where($map)->select();
         Log::record('原始标签：'.json_encode($tags),Log::DEBUG);
 
         $tagsOutput = array();

@@ -7,7 +7,7 @@
                 <div class="fl">
                     <div class="tools">
                         <a href="{:U('Periodical/add')}" class="btn">新增期刊</a>
-                        <a target-form="ids" href="{:U('Periodical/del')}" class="btn ajax-post confirm">删除</a>
+                        <a target-form="ids" href="{:U('Periodical/del')}" class="btn btn-danger ajax-post confirm">删除</a>
                     </div>
                 </div>
                 <!-- 高级搜索 -->
@@ -21,7 +21,7 @@
                         </select>
                     </div>
                     <div class="sleft">
-                        <input type="text" placeholder="请输入关键字" value="{:I('name')}" class="search-input" name="name">
+                        <input type="text" placeholder="请输入期刊名称中的关键字" value="{:I('name')}" class="search-input" name="name">
                         <a url="{:U('Periodical/index',$get_param)}" id="search" href="javascript:;" class="sch-btn"><i class="btn-search"></i></a>
                     </div>
 

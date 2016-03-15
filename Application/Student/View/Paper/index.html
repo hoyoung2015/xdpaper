@@ -38,7 +38,7 @@
                                 <td><a href="{:U('PaperSubmit/index',array('paper_id'=>$vo['id']))}" target="_self">{$vo.sname}</a></td>
                                 <td>
                                     <notempty name="vo['periodical']">
-                                        <a href="{$vo['periodical']['web_site']}">{$vo['periodical']['name']}</a>
+                                        <a href="{$vo['periodical']['web_site']}" target="_blank">{$vo['periodical']['name']}</a>
                                         <else/>未投稿
                                     </notempty>
                                 </td>

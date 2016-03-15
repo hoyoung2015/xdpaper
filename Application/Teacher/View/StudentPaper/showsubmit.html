@@ -24,12 +24,7 @@
                     </div>
                     <div class="fr">
                         <div class="tools">
-                            <if condition="($vo['submit_status'] lt C('PSSC')['REJECT']) and ($vo['is_active']==1)">
-                                <a href="javascript:void(0)" class="btn" onclick="updateStatus({$vo['id']})">更新状态</a>
-                            </if>
-                            <if condition="($vo['submit_status'] egt C('PSSC')['REJECT']) and ($vo['is_active']==1)">
-                                <a href="{:U('PaperSubmit/closeSubmit',array('submit_id'=>$vo['id']))}" class="btn confirm ajax-get">投稿结束并存档</a>
-                            </if>
+
                         </div>
                     </div>
 
@@ -57,7 +52,7 @@
                                     <td class="text-center" width="80">
                                         <if condition="$vo2['is_active']==1 and $key==0">
                                             <!-- 第一个可以进行删除 -->
-                                            <a class="ajax-get" href="{:U('PaperSubmit/delTopStatus',array('submit_id'=>$vo['id']))}" target="_self">撤销</a>
+                                            可撤销
                                             <else/>
                                             <span style="color: #AAAAAA">不能修改</span>
                                         </if>
@@ -131,7 +126,7 @@
 
 
         </section>
-        </div>
+    </div>
 </block>
 
 <block name="script">
@@ -139,9 +134,9 @@
         var url = "/{$Think.MODULE_NAME}/Paper/";
         //导航高亮
         $(".nav li a").each(function(i){
-           if($(this).attr('href').indexOf(url) >= 0){
-               $(this).parent().addClass('active');
-           }
+            if($(this).attr('href').indexOf(url) >= 0){
+                $(this).parent().addClass('active');
+            }
         });
         function updateStatus(paperSubmitId){
             var dataUrl = "{:U('PaperSubmit/updateStatus',array('submit_id'=>'_submit_id_'))}";

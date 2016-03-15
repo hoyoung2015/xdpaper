@@ -12,7 +12,7 @@ class PeriodicalController extends TeacherController{
     public function index($tag = '',$name = ''){
         $page = I ( 'p', 1, 'intval' ); // 默认显示第一页数据
         $map = array(
-//            'tid'=>session('user_auth')['uid']
+            'tid'=>session('user_auth')['uid']
         );
         Log::record('tag的值'.$tag,Log::DEBUG);
         empty($name) || $map['name'] = array('like', '%'.(string)$name.'%');
@@ -45,7 +45,7 @@ class PeriodicalController extends TeacherController{
         $model = D('Admin/Periodical');
         if(IS_POST){
             $data = $model->update(array(
-//                'tid'=>session('user_auth')['uid']
+                'tid'=>session('user_auth')['uid']
             ));
             if($data===false){//失败
                 $this->error($model->getError());
@@ -61,7 +61,7 @@ class PeriodicalController extends TeacherController{
         $model = D('Admin/Periodical');
         if(IS_POST){
             $data = $model->update(array(),array(
-//                'tid'=>session('user_auth')['uid']
+                'tid'=>session('user_auth')['uid']
             ));
             if($data===false){//失败
                 $this->error($model->getError());
@@ -99,7 +99,8 @@ class PeriodicalController extends TeacherController{
         }
         Log::record('$count==>>>>>>>>>>>>>>>>>>.'.'--------------',Log::DEBUG);
         $res = M('Periodical')->where(array(
-            'id'=>array('IN',$delete_ids)
+            'id'=>array('IN',$delete_ids),
+            'tid'=>session('user_auth')['uid']
         ))->delete();
 
         if($res){

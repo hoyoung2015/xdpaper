@@ -107,7 +107,8 @@ sql;
             ));
             if($res){
                 $user = session('user_auth');
-                $content = $user['nickname']."的论文《".'aa'."》进入 ".get_status_name(C('PSSC')['INIT'])." 状态";
+
+                $content = $user['nickname']."的论文《".$paper['name']."》进入 ".get_status_name(C('PSSC')['INIT'])." 状态";
 //                $url = U('StudentPaper')
                 //发送消息
                 D('Admin/TeacherMsg')->receiveMsg($user['tid'],$content,'');
@@ -144,6 +145,11 @@ sql;
 
             $paperSubmit = $model->find($_POST['submit_id']);
             $record_arr = json_decode($paperSubmit['record_json'],true);
+
+            //判断submit_date是否未空
+            if(empty($_POST['submit_date'])){
+                $this->error('更新日期不能为空');
+            }
 
             //将第一个的活跃状态取消
             $record_arr[0]['is_active'] = 0;

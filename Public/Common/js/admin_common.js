@@ -251,7 +251,7 @@
     })();
 	//侧栏
 	if(!$('#main-container .sidebar').html()){
-		$('#main-container .main_body').width(1200);
+		$('#main-container .main_body').width(1000);
 	}
 
     // 独立域表单获取焦点样式
@@ -268,7 +268,7 @@
 	
 	//侧栏
 	if(!$('#main-container .sidebar').html()){
-		$('#main-container .main_body').width(1200);
+		$('#main-container .main_body').width(1000);
 	}
 	/*
 	$('.sidenav_parent').click(function(){

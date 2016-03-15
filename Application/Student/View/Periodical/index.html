@@ -20,7 +20,7 @@
                         </select>
                     </div>
                     <div class="sleft">
-                        <input type="text" placeholder="请输入关键字" value="{:I('name')}" class="search-input" name="name">
+                        <input type="text" placeholder="请输入期刊名称中的关键字" value="{:I('name')}" class="search-input" name="name">
                         <a url="{:U('Periodical/index',$get_param)}" id="search" href="javascript:;" class="sch-btn"><i class="btn-search"></i></a>
                     </div>
 
@@ -60,7 +60,7 @@
                                 <td>{$vo.create_time|time_format}</td>
                                 <td>
                                     <a href="{:U('Periodical/edit',array('id'=>$vo['id']))}" target="_self">编辑</a>
-                                    <a href="javascript:void(0)" onclick="setPeriodPassd({$vo['id']})">账号管理</a>
+                                    <a href="javascript:void(0)" onclick="setPeriodPassd({$vo['id']})">投稿账号</a>
                                 </td>
                             </tr>
                         </volist>

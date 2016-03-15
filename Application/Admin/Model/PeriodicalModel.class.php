@@ -15,6 +15,7 @@ class PeriodicalModel extends \Think\Model{
         array('name', '', '期刊名已经存在', self::MUST_VALIDATE, 'unique', self::MODEL_BOTH),
         array('domain', 'require', '领域为必须', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
         array('tag', 'require', '级别为必须', self::EXISTS_VALIDATE, 'regex', self::MODEL_BOTH),
+        array('tid', 'require', 'tid为必须', self::EXISTS_VALIDATE, 'regex', self::MODEL_BOTH),
 
         array('web_site', 'require', '网址为必须', self::EXISTS_VALIDATE, 'regex', self::MODEL_BOTH),
         array('web_site', 'url', '网址为格式错误', self::EXISTS_VALIDATE, 'regex', self::MODEL_BOTH),
@@ -73,8 +74,8 @@ class PeriodicalModel extends \Think\Model{
         return $data;
 
     }
-    public function findGroup(){
-        $tags = $this->distinct(true)->field('tag')->select();
+    public function findGroup($map = array()){
+        $tags = $this->distinct(true)->field('tag')->where($map)->select();
         Log::record('期刊原始标签：'.json_encode($tags),Log::DEBUG);
 
         $tagsOutput = array();

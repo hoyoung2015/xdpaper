@@ -12,10 +12,26 @@ class AuthController extends Controller{
     public function login($username = '', $password = '', $verify = ''){
         Log::record('Teacher登录',Log::DEBUG);
         if(IS_POST){
+
+            if(empty($username)){
+                $this->error('用户名不能为空！');
+            }
+            if(empty($password)){
+                $this->error('密码不能为空！');
+            }
+            if(empty($verify)){
+                $this->error('验证码不能为空！');
+            }
+
             /* 检测验证码 */
-//            if(!check_verify($verify,2)){
-//                $this->error('验证码输入错误！');
-//            }
+            if(!check_verify($verify,2)){
+                $this->error('验证码输入错误！');
+            }
+
+
+
+
+
             $model = M('Teacher');
             $tea = $model->where(array('username'=>$username))->limit(1)->select();
             Log::record('导师信息'.json_encode($tea),Log::DEBUG);

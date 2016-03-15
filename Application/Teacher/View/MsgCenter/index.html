@@ -35,7 +35,9 @@
             font-weight:600;margin-right:-5px
         }
         ul.filter-wrapper li a.active,ul.filter-wrapper li a:hover{
-            background-color:#00b38a;color:#fff
+            background-color:#44b549;
+            color:#fff;
+            border-radius:3px
         }
         ul.filter-wrapper li .btn-more{
             position:relative;
@@ -149,6 +151,7 @@
                 <div class="fl">
                     <div class="tools">
                         <a target-form="ids" href="{:U('MsgCenter/setRead')}" class="btn ajax-post">标记为已读</a>
+                        <a target-form="ids" href="{:U('MsgCenter/setAllRead')}" class="btn btn-blue ajax-get">全部标记为已读</a>
                     </div>
                 </div>
             </div>

@@ -11,10 +11,22 @@ use Think\Log;
 class AuthController extends Controller{
     public function login($username = '', $password = '', $verify = ''){
         if(IS_POST){
+            if(empty($username)){
+                $this->error('用户名不能为空！');
+            }
+            if(empty($password)){
+                $this->error('密码不能为空！');
+            }
+            if(empty($verify)){
+                $this->error('验证码不能为空！');
+            }
+
             /* 检测验证码 */
-//            if(!check_verify($verify,2)){
-//                $this->error('验证码输入错误！');
-//            }
+            if(!check_verify($verify,2)){
+                $this->error('验证码输入错误！');
+            }
+
+
             $model = M('Student');
             $stu = $model->where(array('username'=>$username))->limit(1)->select();
             if($stu && is_array($stu) && $stu[0]['password']===$password){

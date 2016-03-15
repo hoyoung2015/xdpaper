@@ -35,7 +35,9 @@
             font-weight:600;margin-right:-5px
         }
         ul.filter-wrapper li a.active,ul.filter-wrapper li a:hover{
-            background-color:#00b38a;color:#fff
+            background-color:#44b549;
+            color:#fff;
+            border-radius:3px
         }
         ul.filter-wrapper li .btn-more{
             position:relative;
@@ -217,7 +219,7 @@
                             <tr>
                                 <td><input type="checkbox" id="check_{$vo.id}" name="ids[]" value="{$vo.id}" class="ids regular-checkbox">
                                     <label for="check_{$vo.id}"></label></td>
-                                <td>{$vo['name']}</td>
+                                <td><a target="_blank" href="{:U('showSubmit',array('paper_id'=>$vo['id']))}">{$vo['name']}</a></td>
                                 <td>{$vo['nickname']}</td>
                                 <td>
                                     <notempty name="vo['periodical_id']">
@@ -281,8 +283,6 @@
             $container.append($div);
         }
 //        new TagSelecter('tagSelector',tagData);
-        //导航高亮
-        $(".nav li a[href='"+url+"']").parent().addClass('active');
         $(function(){
 
 

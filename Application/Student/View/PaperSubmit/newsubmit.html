@@ -21,15 +21,17 @@
                                     投稿
                                 </notempty>
                             </h3>
-                            <p>论文：{$paper.name}</p>
+                            <h3>论文：{$paper.name}</h3>
                             <div class="form-item cf">
-                                <label class="item-label"> <span class="need_flag">*</span> 选择期刊 <span class="check-tips"> </span></label>
+                                <label class="item-label"> <span class="need_flag">*</span> 选择期刊（括号中的数字表示同门中正在投该期刊的稿件数） <span class="check-tips"> </span></label>
                                 <div class="controls">
-                                    <select name="periodical_id">
+                                    <select id="select" name="periodical_id">
+                                        <option value="{$vo.id}">==请选择投稿期刊==</option>
                                         <volist name="periodical" id="vo" status="status">
-                                            <option value="{$vo.id}">{$vo.name}</option>
+                                            <option value="{$vo.id}" total="{$vo.total}">{$vo.name}({$vo.total})</option>
                                         </volist>
                                     </select>
+                                    <a id="paperDetail" target="_blank" href="#" style="display: none">查看当前团队内其他人的投稿情况</a>
                                 </div>
                             </div>
                             <div class="form-item cf toggle-public_name">
@@ -62,6 +64,7 @@
     <script type="application/javascript" src="__PUBLIC__/static/jquery-ui/ui/i18n/datepicker-zh-CN.js"></script>
     <script type="text/javascript">
         var url = "/{$Think.MODULE_NAME}/{$Think.CONTROLLER_NAME}/";
+        var reviewingPeriodUrl = "{:U('PaperSubmit/reviewingPeriod',array('period_id'=>'_period_id_'))}";
         $(function() {
 
             //导航高亮
@@ -72,6 +75,25 @@
             });
             $( "#submitDate" ).datepicker({
                 dateFormat: "yy-mm-dd"
+            });
+
+            $('#select').change(function(){
+                var period_id = parseInt($(this).val());
+                var $a = $('#paperDetail');
+                if(period_id){
+
+                    var total = $(this).find('option:selected').attr('total');
+                    total = parseInt(total);
+                    if(total>0){
+                        $a.attr('href',reviewingPeriodUrl.replace('_period_id_',period_id));
+                        $a.show();
+                    }else{
+                        $a.hide();
+                    }
+
+                }else{
+                    $a.hide();
+                }
             });
         });
 

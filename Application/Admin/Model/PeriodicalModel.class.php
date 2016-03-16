@@ -14,7 +14,8 @@ class PeriodicalModel extends \Think\Model{
         array('name', 'require', '期刊名为必须', self::MUST_VALIDATE, 'regex', self::MODEL_INSERT),
         array('name', '', '期刊名已经存在', self::MUST_VALIDATE, 'unique', self::MODEL_BOTH),
         array('domain', 'require', '领域为必须', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
-        array('tag', 'require', '级别为必须', self::EXISTS_VALIDATE, 'regex', self::MODEL_BOTH),
+        array('tag', 'require', '级别为必须', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
+        array('tag', '/^([\x{4e00}-\x{9fa5}\da-zA-Z]{1,},){0,}([\x{4e00}-\x{9fa5}\da-zA-Z]{1,})$/u', '级别格式不正确', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
         array('tid', 'require', 'tid为必须', self::EXISTS_VALIDATE, 'regex', self::MODEL_BOTH),
 
         array('web_site', 'require', '网址为必须', self::EXISTS_VALIDATE, 'regex', self::MODEL_BOTH),
@@ -24,6 +25,8 @@ class PeriodicalModel extends \Think\Model{
     protected $_auto = array(
         array('status', 1, self::MODEL_INSERT, 'string'),
         array('update_time', 'time', self::MODEL_BOTH, 'function'),
+        array('name', 'trim', self::MODEL_BOTH, 'function'),//去掉左右空格
+        array('tag', 'fill_comma_for_tag', self::MODEL_BOTH, 'function'),//为了查询方便，补充逗点
         array('create_time', 'time', self::MODEL_INSERT, 'function'),
     );
 
@@ -50,8 +53,8 @@ class PeriodicalModel extends \Think\Model{
         }
 
         //补充首尾的逗号
-        $data['tag'] = ",".$data['tag'].",";
-        Log::record('补充逗号后的标签：'.json_encode($data['tag']),Log::DEBUG);
+//        $data['tag'] = ",".$data['tag'].",";
+//        Log::record('补充逗号后的标签：'.json_encode($data['tag']),Log::DEBUG);
         /* 添加或新增行为 */
         if(empty($data['id'])){ //新增数据
 

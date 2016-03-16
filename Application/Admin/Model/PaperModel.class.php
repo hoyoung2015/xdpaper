@@ -19,6 +19,8 @@ class PaperModel extends \Think\Model{
     /* 自动完成规则 */
     protected $_auto = array(
         array('status', 1, self::MODEL_INSERT, 'string'),
+        array('name', 'trim', self::MODEL_BOTH, 'function'),//去掉左右空格
+        array('sname', 'trim', self::MODEL_BOTH, 'function'),//去掉左右空格
         array('update_time', 'time', self::MODEL_BOTH, 'function'),
         array('create_time', 'time', self::MODEL_INSERT, 'function'),
         array('is_active', 1, self::MODEL_INSERT, 'integer'),

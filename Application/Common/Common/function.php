@@ -1084,3 +1084,10 @@ function get_status_name($status_code){
     }
     return null;
 }
+
+function fill_comma_for_tag($tag = null){
+    if($tag){
+        return ",$tag,";
+    }
+    return '';
+}

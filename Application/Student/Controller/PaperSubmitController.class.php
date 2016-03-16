@@ -108,7 +108,9 @@ sql;
             if($res){
                 $user = session('user_auth');
 
-                $content = $user['nickname']."的论文《".$paper['name']."》进入 ".get_status_name(C('PSSC')['INIT'])." 状态";
+                $periodical = M('Periodical')->field('name')->find($_POST['periodical_id']);
+
+                $content = $user['nickname']."的论文《".$paper['name']."》在".$_POST['submit_date']."进入".$periodical['name']."的 ".get_status_name(C('PSSC')['INIT'])." 状态";
 //                $url = U('StudentPaper')
                 //发送消息
                 D('Admin/TeacherMsg')->receiveMsg($user['tid'],$content,'');
@@ -128,7 +130,36 @@ sql;
             }
             $this->paper = $paper;
             //查询期刊
-            $this->periodical = M('Periodical')->select();
+
+            //查询已经投过的期刊id
+            $ps = M('PaperSubmit')->field('periodical_id')->where(array(
+                'paper_id'=>$paper_id
+            ))->select();
+            $tmp = array();
+            foreach($ps as $v){
+                array_push($tmp,$v['periodical_id']);
+            }
+            $tid = session('user_auth')['tid'];
+            $init_code = C('PSSC')['INIT'];
+            $review_code = C('PSSC')['REVIEW'];
+            $sql = <<<sql
+select pe.id,pe.name,if(ps.total,ps.total,0) as total
+from periodical as pe
+left join (
+	select id,periodical_id,submit_status,count(id) as total from paper_submit
+    where submit_status in ($init_code,$review_code)
+    group by periodical_id
+) ps on ps.periodical_id=pe.id
+where pe.tid=$tid
+sql;
+
+            if(!empty($tmp)){
+                $sql .= ' and pe.id not in ('.join(',',$tmp).')';
+            }
+
+            $periodical = M()->query($sql);
+
+            $this->assign('periodical',$periodical);
 
             $this->display();
         }
@@ -145,7 +176,7 @@ sql;
 
             $paperSubmit = $model->find($_POST['submit_id']);
             $record_arr = json_decode($paperSubmit['record_json'],true);
-
+            $periodical = M('Periodical')->field('name')->find($paperSubmit['periodical_id']);
             //判断submit_date是否未空
             if(empty($_POST['submit_date'])){
                 $this->error('更新日期不能为空');
@@ -166,12 +197,14 @@ sql;
 
             $res = $model->updateStatus($paperSubmit);
 
-
+            $user = session('user_auth');
 
             Log::record('更新投递状态后的结果>>>>>'.$res,Log::DEBUG);
             if($res){
                 $user = session('user_auth');
-                $content = $user['nickname']."的论文《".'aa'."》进入 ".get_status_name($paperSubmit['submit_status'])." 状态";
+                //查论文
+                $paper = M('Paper')->field('name')->find($paperSubmit['paper_id']);
+                $content = $user['nickname']."的论文《".$paper['name']."》在".$_POST['submit_date']."进入".$periodical['name']."的 ".get_status_name($paperSubmit['submit_status'])." 状态";
 //                $url = U('StudentPaper')
                 //发送消息
                 D('Admin/TeacherMsg')->receiveMsg($user['tid'],$content,'');
@@ -226,6 +259,25 @@ sql;
             $this->error('出错了');
         }
     }
-
+    public function reviewingPeriod($period_id){
+        //查询所属导师的所有学生
+        $tid = session('user_auth')['tid'];
+        $init_code = C('PSSC')['INIT'];
+        $review_code = C('PSSC')['REVIEW'];
+        $sql = <<<sql
+SELECT p.id as paper_id, p.name as paper_name,p.sid,ps.submit_status,s.nickname,ps.submit_date,ps.periodical_id
+FROM paper as p
+inner join paper_submit as ps on ps.paper_id=p.id
+inner join student as s on p.sid=s.id
+where ps.periodical_id=$period_id and ps.submit_status in ($init_code,$review_code)
+and s.tid=$tid order by ps.submit_date desc
+sql;
+        $this->listdata = M()->query($sql);
+        $periodical = M('periodical')->field('name')->find($period_id);
+        if($periodical){
+            $this->assign('period_name',$periodical['name']);
+        }
+        $this->display();
+    }
 
 }

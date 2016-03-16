@@ -1,6 +1,6 @@
 <extend name="Base/common" />
 <block name="body">
-    <div class="span9 page_message">
+    <div class="page_message">
         <div class="data-table fl" style="margin: 20px;width: 300px">
             <div class="table-striped">
                 <table cellspacing="1" class="text-center">
@@ -28,9 +28,18 @@
                 </table>
             </div>
         </div>
-        <div class="" style="padding: 20px">
-            <h1>使用说明</h1>
+        <div class="" style="margin-left: 300px;overflow: auto">
+            <!--<h1>使用说明</h1>-->
+            <iframe id="docIframe" frameborder="0" scrolling="no" style="border: none;width: 100%" src="Public/Student/doc.html" width="100%" height="100%"></iframe>
         </div>
+        <script type="application/javascript">
+            $(function(){
+                $("#docIframe").load(function(){
+                    var mainheight = $(this).contents().find("body").height()+30;
+                    $(this).height(mainheight);
+                });
+            })
+        </script>
     </div>
 
 

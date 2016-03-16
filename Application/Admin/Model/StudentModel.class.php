@@ -20,6 +20,7 @@ class StudentModel extends \Think\Model{
         array('remark', '0,120', '备注不能超过140个字符', self::EXISTS_VALIDATE, 'length', self::MODEL_BOTH),
         array('email', 'require', '邮件为必须', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
         array('tag', 'require', '标签为必须', self::EXISTS_VALIDATE, 'regex', self::MODEL_BOTH),
+        array('tag', '/^([\x{4e00}-\x{9fa5}\da-zA-Z]{1,},){0,}([\x{4e00}-\x{9fa5}\da-zA-Z]{1,})$/u', '标签格式不正确', self::EXISTS_VALIDATE, 'regex', self::MODEL_BOTH),
         array('repassword','password','密码不一致',self::EXISTS_VALIDATE,'confirm'),
         array('email','email','email格式错误'),
     );
@@ -27,6 +28,11 @@ class StudentModel extends \Think\Model{
     protected $_auto = array(
         array('status', 1, self::MODEL_INSERT, 'string'),
         array('login', 0, self::MODEL_INSERT, 'string'),
+        array('username', 'trim', self::MODEL_BOTH, 'function'),//去掉左右空格
+        array('nickname', 'trim', self::MODEL_BOTH, 'function'),//去掉左右空格
+        array('email', 'trim', self::MODEL_BOTH, 'function'),//去掉左右空格
+        array('remark', 'trim', self::MODEL_BOTH, 'function'),//去掉左右空格
+        array('tag', 'fill_comma_for_tag', self::MODEL_BOTH, 'function'),//为了查询方便，补充逗点
         array('update_time', 'time', self::MODEL_BOTH, 'function'),
         array('create_time', 'time', self::MODEL_INSERT, 'function'),
     );
@@ -52,7 +58,6 @@ class StudentModel extends \Think\Model{
 
         Log::record('将要存入数据库中的学生数据'.json_encode($data),Log::DEBUG);
         //补充首尾的逗号
-        $data['tag'] = ",".$data['tag'].",";
         /* 添加或新增行为 */
         if(empty($data['id'])){ //新增数据
 
@@ -63,6 +68,15 @@ class StudentModel extends \Think\Model{
                 return false;
             }
         } else { //更新数据
+
+//            $data_db = $this->find($data['id']);
+//            $data_db['nickname'] = $data['nickname'];
+//            $data_db['headface_url'] = $data['headface_url'];
+//            $data_db['email'] = $data['email'];
+//            $data_db['phone'] = $data['phone'];
+//            $data_db['sex'] = $data['sex'];
+
+
             $status = $this->where(array_merge(array(
                 'id'=>$data['id']
             ),$where))->save($data); //更新基础内容

@@ -3,10 +3,13 @@
     <div class="wrap">
         <section id="contents">
             <br>
-            <h3 style="padding: 0 20px">论文：{$paper['name']}</h3>
+            <h3 class="text-center" style="padding: 0 20px">论文：{$paper['name']}</h3>
             <eq name="ableToNewSubmitFlag" value="1">
                 <!-- ableToNewSubmitFlag==1时才能新增投稿 -->
-                <a class="btn btn-large" style="display: block;margin: 10px 300px" href="{:U('PaperSubmit/newSubmit',array('paper_id'=>$paper['id']))}">点击投稿</a>
+                <p class="text-center" style="margin: 20px 0">
+                    <a class="btn btn-large" href="{:U('PaperSubmit/newSubmit',array('paper_id'=>$paper['id']))}">点击投稿</a>
+                    <a class="btn btn-gray btn-large" onclick="javascript:history.back(-1);return false;">返回</a>
+                </p>
             </eq>
             <if condition="$paper['is_active']==0 and $paper['paper_status']==C('PSSC')['ACCEPT']">
                 <div style="padding: 30px;border: 2px solid limegreen;margin: 10px 500px;border-radius: 5px">
@@ -16,7 +19,7 @@
 
             <notempty name="activePaperSubmit">
                 <assign name="vo" value="$activePaperSubmit"/>
-
+                <br>
                 <h3 class="text-center">当前投稿记录</h3>
                 <div class="table-bar">
                     <div class="fl">
@@ -80,7 +83,7 @@
             <volist name="paperSubmits" id="vo" status="status">
                 <div class="table-bar">
                     <div class="fl">
-                        <p>期刊：<a href="#">{$vo.periodical_name}</a></p>
+                        <p>期刊：<a target="_blank" href="{$vo.periodical_site}">{$vo.periodical_name}</a></p>
                     </div>
                     <div class="fr">
                         <div class="tools">

@@ -16,13 +16,16 @@ class IndexController extends StudentController{
         $paper_count = array(
             array(
                 'name'=>'全部',
-                'num'=>$model->count()
+                'num'=>$model->where(array('sid'=>session('user_auth')['uid']))->count()
             )
         );
         foreach(C('PSSC') as $key=>$value){
             array_push($paper_count,array(
                 'name'=>get_status_name($value),
-                'num'=>$model->where(array('paper_status'=>$value))->count()
+                'num'=>$model->where(array(
+                    'paper_status'=>$value,
+                    'sid'=>session('user_auth')['uid']
+                ))->count()
             ));
         }
         $this->assign('paper_count',$paper_count);
@@ -61,9 +64,23 @@ class IndexController extends StudentController{
 
         $model = D('Admin/Student');
 
-        $result = $model->update(array(
+        $data = array_merge($_POST,array(
             'id'=>session('user_auth')['uid']
         ));
+
+        $data = $model->create($data);
+
+        if(empty($data) || $data===false){
+            $this->error($model->getError());
+        }
+        $result = $model->where(array('id'=>session('user_auth')['uid']))->save(array(
+            'nickname'=>$data['nickname'],
+            'email'=>$data['email'],
+            'sex'=>$data['sex'],
+            'phone'=>$data['phone'],
+            'headface_url'=>$data['headface_url']
+        ));
+
         if($result===false){
             $this->error($model->getError());
         }else{

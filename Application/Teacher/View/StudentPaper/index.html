@@ -185,7 +185,7 @@
                         </li>
                         <li><span class="title">投稿状态：</span>
 
-                            <a <empty name="ps">class="active"</empty> href="{:U('StudentPaper/index',array('stag'=>$stag,'s'=>$s))}">不限</a>
+                            <a <empty name="ps">class="active"</empty> href="{:U('StudentPaper/index',array('stag'=>$stag,'s'=>$s,'ptag'=>$ptag,'pe'=>$pe))}">不限</a>
                             <volist name="paperStatus" id="vo">
                                 <a <eq name="ps" value="$vo['code']">class="active"</eq> href="{:U('StudentPaper/index',array('stag'=>$stag,'ptag'=>$ptag,'pe'=>$pe,'s'=>$s,'ps'=>$vo['code']))}">{$vo['name']}</a>
                             </volist>

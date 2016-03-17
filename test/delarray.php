@@ -45,3 +45,5 @@ echo preg_match($regx,'english,12a');
 echo ' ';
 echo preg_match($regx,'中文，逗号');
 //echo preg_match('/[\x{4e00}-\x{9fa5}]+/u','中文');
+
+echo trim(',abc,',',');

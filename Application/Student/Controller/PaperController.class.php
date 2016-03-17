@@ -68,7 +68,7 @@ class PaperController extends StudentController{
     public function del($id = null){
         $model = D('Admin/Paper');
         if ($model->delPaper($id,session('user_auth')['uid'])) {
-            $this->success ( '删除成功' );
+            $this->success ( '删除成功' ,U('index'));
         } else {
             $this->error ( '删除失败！' );
         }

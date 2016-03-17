@@ -1077,9 +1077,10 @@ function array_values_merge()
 }
 function get_status_name($status_code){
     $pssc  = C('PSSC');
+    $psscName  = C('PSSC_NAME');
     foreach($pssc as $key=>$value){
         if($value==$status_code){
-            return C('PSSC_NAME')[$key];
+            return $psscName[$key];
         }
     }
     return null;

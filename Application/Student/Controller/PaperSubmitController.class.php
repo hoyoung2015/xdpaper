@@ -143,10 +143,11 @@ sql;
             $init_code = C('PSSC')['INIT'];
             $review_code = C('PSSC')['REVIEW'];
             $sql = <<<sql
-select pe.id,pe.name,if(ps.total,ps.total,0) as total
+select pe.id,pe.name,if(ps.total,ps.total,0) as total,pe.tag as pe_tag
 from periodical as pe
 left join (
-	select id,periodical_id,submit_status,count(id) as total from paper_submit
+	select id,periodical_id,submit_status,count(id) as total
+	from paper_submit
     where submit_status in ($init_code,$review_code)
     group by periodical_id
 ) ps on ps.periodical_id=pe.id

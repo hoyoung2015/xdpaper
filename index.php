@@ -8,6 +8,18 @@
 // +----------------------------------------------------------------------
 
 if(version_compare(PHP_VERSION,'5.3.0','<'))  die('require PHP > 5.3.0 !');
+/**
+ * 自定义的新浪SAE
+ */
+define ( 'SAE_MYSQL_HOST_M', '127.0.0.1' );
+define ( 'SAE_MYSQL_DB', 'xdpaper' );
+define ( 'SAE_MYSQL_USER', 'root' );
+define ( 'SAE_MYSQL_PASS', '' );
+define ( 'SAE_MYSQL_PORT', '3306' );
+
+
+
+
 
 /**
  * 系统调试设置

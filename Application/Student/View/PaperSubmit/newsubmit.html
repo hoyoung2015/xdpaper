@@ -25,13 +25,19 @@
                             <div class="form-item cf">
                                 <label class="item-label"> <span class="need_flag">*</span> 选择期刊（括号中的数字表示同门中正在投该期刊的稿件数） <span class="check-tips"> </span></label>
                                 <div class="controls">
-                                    <select id="select" name="periodical_id">
+                                    <select id="select" name="periodical_id" style="width: 320px">
                                         <option value="{$vo.id}">==请选择投稿期刊==</option>
                                         <volist name="periodical" id="vo" status="status">
-                                            <option value="{$vo.id}" total="{$vo.total}">{$vo.name}({$vo.total})</option>
+                                            <option value="{$vo.id}" total="{$vo.total}" tag="{$vo.pe_tag|trim=###,','}">{$vo.name}({$vo.total})</option>
                                         </volist>
                                     </select>
-                                    <a id="paperDetail" target="_blank" href="#" style="display: none">查看当前团队内其他人的投稿情况</a>
+                                    <span id="tagSpan">
+
+                                    </span>
+                                    <p>
+                                        <a id="paperDetail" target="_blank" href="#" style="display: none">查看当前团队内其他人的投稿情况</a>
+                                    </p>
+
                                 </div>
                             </div>
                             <div class="form-item cf toggle-public_name">
@@ -80,9 +86,10 @@
             $('#select').change(function(){
                 var period_id = parseInt($(this).val());
                 var $a = $('#paperDetail');
+                var $span = $('#tagSpan');
                 if(period_id){
-
-                    var total = $(this).find('option:selected').attr('total');
+                    $option = $(this).find('option:selected');
+                    var total = $option.attr('total');
                     total = parseInt(total);
                     if(total>0){
                         $a.attr('href',reviewingPeriodUrl.replace('_period_id_',period_id));
@@ -90,8 +97,9 @@
                     }else{
                         $a.hide();
                     }
-
+                    $span.html($option.attr('tag'));
                 }else{
+                    $span.html('');
                     $a.hide();
                 }
             });
